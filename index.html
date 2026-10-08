@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifo Clinic - Mukammal Klinika Tizimi</title>
+    <title>Shifo Clinic - Professional Boshqaruv Tizimi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -29,47 +29,29 @@
     <main class="container mx-auto px-6 py-8">
         
         <!-- Auth Section -->
-        <div id="auth-section" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-gray-100">
-            <div class="flex border-b mb-6">
-                <button onclick="switchAuthTab('login')" id="auth-tab-login" class="flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600 text-center transition">Tizimga Kirish</button>
-                <button onclick="switchAuthTab('register')" id="auth-tab-register" class="flex-1 pb-3 font-bold text-gray-400 text-center transition">Ro'yxatdan O'tish</button>
+        <div id="auth-section" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl border border-gray-100 space-y-6">
+            <div class="text-center space-y-2">
+                <div class="bg-teal-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto text-teal-600 text-2xl">
+                    <i class="fa-solid fa-lock"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800">Tizimga Kirish</h2>
+                <p class="text-xs text-gray-500">Klinika xodimlari va administrator uchun</p>
             </div>
 
-            <!-- Login Form -->
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Email manzil</label>
-                    <input type="email" id="login-email" required class="w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="admin@shifo.uz">
+                    <input type="email" id="login-email" required class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="admin@shifo.uz">
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1">Parol</label>
-                    <input type="password" id="login-password" required class="w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="••••••••">
+                    <input type="password" id="login-password" required class="w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="••••••••">
                 </div>
                 <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 font-semibold transition shadow-md">Kirish</button>
             </form>
-
-            <!-- Register Form -->
-            <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">F.I.O (To'liq ism)</label>
-                    <input type="text" id="reg-name" required class="w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="Alisher Karimov">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Email (Unikal)</label>
-                    <input type="email" id="reg-email" required class="w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="alisher@gmail.com">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Parol yarating</label>
-                    <input type="password" id="reg-password" required onpaste="return false;" class="w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="••••••••">
-                </div>
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Parolni tasdiqlang (Qayta yozing)</label>
-                    <input type="password" id="reg-password-confirm" required onpaste="return false;" class="w-full px-4 py-2.5 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="••••••••">
-                    <p id="password-match-error" class="text-xs text-red-500 mt-1 hidden">Parollar mos kelmadi!</p>
-                </div>
-                <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 font-semibold transition shadow-md">Hisob yaratish</button>
-                <p class="text-xs text-gray-400 text-center mt-2">Birinchi ro'yxatdan o'tgan foydalanuvchi avtomatik ravishda <b>Admin</b> bo'ladi.</p>
-            </form>
+            <div class="text-center pt-2 border-t">
+                <p class="text-xs text-gray-400">Boshlang'ich Admin: <br><b>admin@shifo.uz</b> / <b>admin123</b></p>
+            </div>
         </div>
 
         <!-- Main Dashboard App -->
@@ -81,6 +63,7 @@
                 <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
                 <button onclick="switchTab('patients')" id="tab-patients" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-users"></i><span>Bemorlar & Qabul</span></button>
                 <button onclick="switchTab('billing')" id="tab-billing" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-receipt"></i><span>Kvitansiya & Chek</span></button>
+                <button onclick="switchTab('settings')" id="tab-settings" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-gear"></i><span>Sozlamalar & Xodimlar</span></button>
             </div>
 
             <!-- Rooms Tab Content -->
@@ -88,10 +71,10 @@
                 <div class="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div>
                         <h3 class="text-xl font-bold text-gray-800">Klinika Xonalari</h3>
-                        <p class="text-sm text-gray-500">Xonalarning bandlik va tozalik holatini boshqaring</p>
+                        <p class="text-sm text-gray-500">Xonalarni boshqarish va tahrirlash</p>
                     </div>
                     <div id="admin-room-controls" class="hidden flex space-x-2">
-                        <input type="text" id="new-room-name" placeholder="Masalan: 104-Xona (Neurology)" class="px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        <input type="text" id="new-room-name" placeholder="Xona nomi / Yo'nalish" class="px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
                         <button onclick="addRoom()" class="bg-teal-600 text-white px-5 py-2 rounded-xl text-sm font-semibold hover:bg-teal-700 transition shadow">Xona qo'shish</button>
                     </div>
                 </div>
@@ -103,7 +86,7 @@
                 <div class="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                     <div>
                         <h3 class="text-xl font-bold text-gray-800">Shifokorlar Jamoasi</h3>
-                        <p class="text-sm text-gray-500">Klinikadagi mavjud mutaxassislar ro'yxati</p>
+                        <p class="text-sm text-gray-500">Mutaxassislarni qo'shish, o'zgartirish va o'chirish</p>
                     </div>
                     <div id="admin-doctor-controls" class="hidden flex space-x-2">
                         <input type="text" id="new-doc-name" placeholder="Dr. Ism Familiya" class="px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
@@ -165,6 +148,45 @@
                 </div>
             </div>
 
+            <!-- Settings & Staff Tab (Admin Only) -->
+            <div id="content-settings" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-user-gear text-teal-600 mr-2"></i>Yangi Xodim Qo'shish</h3>
+                        <form onsubmit="addStaff(event)" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Xodim F.I.O</label>
+                                <input type="text" id="staff-name" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ism Familiya">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Email (Kirish uchun)</label>
+                                <input type="email" id="staff-email" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="xodim@shifo.uz">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Parol</label>
+                                <input type="password" id="staff-password" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="••••••••">
+                            </div>
+                            <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 font-semibold transition shadow">Xodimni Qo'shish</button>
+                        </form>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Xodimlar Ro'yxati</h3>
+                        <table class="w-full text-left border-collapse text-sm">
+                            <thead>
+                                <tr class="border-b bg-gray-50 text-gray-600">
+                                    <th class="p-3">Ism</th>
+                                    <th class="p-3">Email</th>
+                                    <th class="p-3">Rol</th>
+                                    <th class="p-3">Amal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="staff-table"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </main>
 
@@ -189,8 +211,10 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v3')) || {
-            users: [],
+        let db = JSON.parse(localStorage.getItem('shifo_db_v5')) || {
+            users: [
+                { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
+            ],
             currentUser: null,
             rooms: [
                 { id: 1, name: "101-Xona (Terapiya)", status: "Bo'sh" },
@@ -205,49 +229,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v3', JSON.stringify(db));
-        }
-
-        function switchAuthTab(tab) {
-            if(tab === 'login') {
-                document.getElementById('login-form').classList.remove('hidden');
-                document.getElementById('register-form').classList.add('hidden');
-                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600 text-center transition";
-                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-gray-400 text-center transition";
-            } else {
-                document.getElementById('login-form').classList.add('hidden');
-                document.getElementById('register-form').classList.remove('hidden');
-                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600 text-center transition";
-                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-gray-400 text-center transition";
-            }
-        }
-
-        function handleRegister(e) {
-            e.preventDefault();
-            const name = document.getElementById('reg-name').value.trim();
-            const email = document.getElementById('reg-email').value.trim().toLowerCase();
-            const pass = document.getElementById('reg-password').value;
-            const confirmPass = document.getElementById('reg-password-confirm').value;
-            const errorText = document.getElementById('password-match-error');
-
-            if(pass !== confirmPass) {
-                errorText.classList.remove('hidden');
-                return;
-            } else {
-                errorText.classList.add('hidden');
-            }
-
-            if(db.users.some(u => u.email === email)) {
-                alert("Bu email manzil allaqachon ro'yxatdan o'tgan! Boshqa email kiriting.");
-                return;
-            }
-
-            const isAdmin = db.users.length === 0;
-            db.users.push({ name, email, pass, role: isAdmin ? 'admin' : 'staff' });
-            saveDB();
-            alert("Muvaffaqiyatli ro'yxatdan o'tdingiz! Endi 'Tizimga Kirish' orqali o'z emailingiz va parolingiz bilan kiring.");
-            switchAuthTab('login');
-            document.getElementById('register-form').reset();
+            localStorage.setItem('shifo_db_v5', JSON.stringify(db));
         }
 
         function handleLogin(e) {
@@ -257,7 +239,7 @@
 
             const user = db.users.find(u => u.email === email && u.pass === pass);
             if(!user) {
-                alert("Email yoki parol noto'g'ri! Yoki bunday foydalanuvchi mavjud emas.");
+                alert("Email yoki parol noto'g'ri!");
                 return;
             }
 
@@ -282,10 +264,16 @@
                 if (db.currentUser.role === 'admin') {
                     document.getElementById('admin-room-controls').classList.remove('hidden');
                     document.getElementById('admin-doctor-controls').classList.remove('hidden');
+                    document.getElementById('tab-settings').classList.remove('hidden');
+                } else {
+                    document.getElementById('admin-room-controls').classList.add('hidden');
+                    document.getElementById('admin-doctor-controls').classList.add('hidden');
+                    document.getElementById('tab-settings').classList.add('hidden');
                 }
                 renderRooms();
                 renderDoctors();
                 renderPatients();
+                renderStaff();
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
                 document.getElementById('user-info').classList.add('hidden');
@@ -295,14 +283,19 @@
         }
 
         function switchTab(tab) {
-            ['rooms', 'doctors', 'patients', 'billing'].forEach(t => {
-                document.getElementById(`content-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).className = "flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap";
+            ['rooms', 'doctors', 'patients', 'billing', 'settings'].forEach(t => {
+                const el = document.getElementById(`content-${t}`);
+                if(el) el.classList.add('hidden');
+                const btn = document.getElementById(`tab-${t}`);
+                if(btn) btn.className = "flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap";
             });
-            document.getElementById(`content-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}`).className = "flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap";
+            const activeContent = document.getElementById(`content-${tab}`);
+            if(activeContent) activeContent.classList.remove('hidden');
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            if(activeBtn) activeBtn.className = "flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap";
         }
 
+        // Rooms Management
         function renderRooms() {
             const grid = document.getElementById('rooms-grid');
             grid.innerHTML = '';
@@ -314,11 +307,15 @@
                             <h4 class="font-bold text-lg text-gray-800">${room.name}</h4>
                             <span class="px-3 py-1 rounded-full text-xs font-bold border ${statusColor}">${room.status}</span>
                         </div>
-                        ${db.currentUser.role === 'admin' ? `
                         <div class="flex space-x-2 pt-3 border-t">
                             <button onclick="updateRoomStatus(${room.id}, 'Bo\\'sh')" class="flex-1 bg-green-50 text-green-700 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-100 transition">Bo'sh</button>
                             <button onclick="updateRoomStatus(${room.id}, 'Band')" class="flex-1 bg-red-50 text-red-700 py-1.5 rounded-lg text-xs font-semibold hover:bg-red-100 transition">Band</button>
                             <button onclick="updateRoomStatus(${room.id}, 'Tozalanmoqda')" class="flex-1 bg-amber-50 text-amber-700 py-1.5 rounded-lg text-xs font-semibold hover:bg-amber-100 transition">Tozalash</button>
+                        </div>
+                        ${db.currentUser.role === 'admin' ? `
+                        <div class="pt-2 flex justify-between items-center border-t text-xs">
+                            <button onclick="editRoom(${room.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
+                            <button onclick="deleteRoom(${room.id})" class="text-red-500 hover:text-red-700 font-medium"><i class="fa-solid fa-trash"></i> O'chirish</button>
                         </div>` : ''}
                     </div>
                 `;
@@ -334,6 +331,24 @@
             renderRooms();
         }
 
+        function editRoom(id) {
+            let room = db.rooms.find(r => r.id === id);
+            let newName = prompt("Xona nomini o'zgartirish:", room.name);
+            if(newName && newName.trim()) {
+                room.name = newName.trim();
+                saveDB();
+                renderRooms();
+            }
+        }
+
+        function deleteRoom(id) {
+            if(confirm("Haqiqatan ham bu xonani o'chirmoqchimisiz?")) {
+                db.rooms = db.rooms.filter(r => r.id !== id);
+                saveDB();
+                renderRooms();
+            }
+        }
+
         function updateRoomStatus(id, status) {
             let room = db.rooms.find(r => r.id === id);
             if(room) {
@@ -343,6 +358,7 @@
             }
         }
 
+        // Doctors Management
         function renderDoctors() {
             const grid = document.getElementById('doctors-grid');
             const select = document.getElementById('p-doctor');
@@ -353,6 +369,11 @@
                     <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-2">
                         <h4 class="font-bold text-lg text-gray-800">${doc.name}</h4>
                         <p class="text-sm text-teal-600 font-medium"><i class="fa-solid fa-stethoscope mr-1.5"></i>${doc.spec}</p>
+                        ${db.currentUser.role === 'admin' ? `
+                        <div class="pt-3 flex justify-between items-center border-t text-xs">
+                            <button onclick="editDoctor(${doc.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
+                            <button onclick="deleteDoctor(${doc.id})" class="text-red-500 hover:text-red-700 font-medium"><i class="fa-solid fa-trash"></i> O'chirish</button>
+                        </div>` : ''}
                     </div>
                 `;
                 select.innerHTML += `<option value="${doc.name}">${doc.name} (${doc.spec})</option>`;
@@ -370,6 +391,27 @@
             renderDoctors();
         }
 
+        function editDoctor(id) {
+            let doc = db.doctors.find(d => d.id === id);
+            let newName = prompt("Shifokor F.I.O:", doc.name);
+            let newSpec = prompt("Mutaxassisligi:", doc.spec);
+            if(newName && newSpec) {
+                doc.name = newName.trim();
+                doc.spec = newSpec.trim();
+                saveDB();
+                renderDoctors();
+            }
+        }
+
+        function deleteDoctor(id) {
+            if(confirm("Shifokorni o'chirishni tasdiqlaysizmi?")) {
+                db.doctors = db.doctors.filter(d => d.id !== id);
+                saveDB();
+                renderDoctors();
+            }
+        }
+
+        // Patients Management
         function addPatient(e) {
             e.preventDefault();
             const name = document.getElementById('p-name').value.trim();
@@ -405,6 +447,52 @@
             renderPatients();
         }
 
+        // Staff Management
+        function addStaff(e) {
+            e.preventDefault();
+            const name = document.getElementById('staff-name').value.trim();
+            const email = document.getElementById('staff-email').value.trim().toLowerCase();
+            const pass = document.getElementById('staff-password').value;
+
+            if(db.users.some(u => u.email === email)) {
+                alert("Bu email allaqachon mavjud!");
+                return;
+            }
+
+            db.users.push({ id: Date.now(), name, email, pass, role: "staff" });
+            saveDB();
+            alert("Yangi xodim muvaffaqiyatli qo'shildi!");
+            e.target.reset();
+            renderStaff();
+        }
+
+        function renderStaff() {
+            const tbody = document.getElementById('staff-table');
+            if(!tbody) return;
+            tbody.innerHTML = '';
+            db.users.forEach(u => {
+                tbody.innerHTML += `
+                    <tr class="border-b text-sm text-gray-700">
+                        <td class="p-3 font-bold">${u.name}</td>
+                        <td class="p-3">${u.email}</td>
+                        <td class="p-3 uppercase text-xs font-bold text-teal-600">${u.role}</td>
+                        <td class="p-3">
+                            ${u.role !== 'admin' ? `<button onclick="deleteStaff(${u.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>` : 'Asosiy'}
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function deleteStaff(id) {
+            if(confirm("Xodimni o'chirishni xohlaysizmi?")) {
+                db.users = db.users.filter(u => u.id !== id);
+                saveDB();
+                renderStaff();
+            }
+        }
+
+        // Billing
         function printReceipt() {
             const patient = document.getElementById('bill-patient').value.trim();
             const service = document.getElementById('bill-service').value.trim();
