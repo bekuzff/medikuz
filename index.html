@@ -29,7 +29,7 @@
         <div class="flex space-x-2 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
             <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
             <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
-            <button onclick="switchTab('patients')" id="tab-patients" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-users"></i><span>Bemorlar & Qabul</span></button>
+            <button onclick="switchTab('patients')" id="tab-patients" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-users"></i><span>Bemorlar & Qabul</span></button>
             <button onclick="switchTab('billing')" id="tab-billing" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-receipt"></i><span>Kvitansiya & Chek</span></button>
             <button onclick="switchTab('settings')" id="tab-settings" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-gear"></i><span>Xodimlar Boshqaruvi</span></button>
         </div>
@@ -65,12 +65,11 @@
             <div id="doctors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
         </div>
 
-        <!-- Patients Tab Content -->
+        <!-- Patients Tab Content (Admin Only) -->
         <div id="content-patients" class="hidden space-y-6">
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-lg font-bold text-gray-800"><i class="fa-solid fa-user-plus text-teal-600 mr-2"></i>Bemorlarni Qabulga Yozish</h3>
-                    <span id="patient-auth-notice" class="text-xs bg-amber-50 text-amber-700 px-3 py-1.5 rounded-lg border border-amber-200">Diqqat: Qabulga yozilish uchun ism va telefoningizni kiriting!</span>
                 </div>
                 <form onsubmit="addPatient(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <input type="text" id="p-name" placeholder="Bemor F.I.O" required class="px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
@@ -266,7 +265,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v12')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v13')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -284,7 +283,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v12', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v13', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -349,6 +348,7 @@
 
         function initApp() {
             const navAuth = document.getElementById('nav-auth-area');
+            const tabPatients = document.getElementById('tab-patients');
             const tabBilling = document.getElementById('tab-billing');
             const tabSettings = document.getElementById('tab-settings');
             const adminRoomControls = document.getElementById('admin-room-controls');
@@ -363,11 +363,14 @@
                 if (db.currentUser.role === 'admin') {
                     adminRoomControls.classList.remove('hidden');
                     adminDocControls.classList.remove('hidden');
+                    tabPatients.classList.remove('hidden');
                     tabBilling.classList.remove('hidden');
                     tabSettings.classList.remove('hidden');
                 } else {
+                    // Oddiy xodimlar uchun ham barcha admin menyular yashirin bo'ladi
                     adminRoomControls.classList.add('hidden');
                     adminDocControls.classList.add('hidden');
+                    tabPatients.classList.add('hidden');
                     tabBilling.classList.add('hidden');
                     tabSettings.classList.add('hidden');
                 }
@@ -376,6 +379,7 @@
                     <button onclick="toggleRegisterModal()" class="bg-teal-800 hover:bg-teal-900 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-600 shadow"><i class="fa-solid fa-user-plus mr-1"></i> Ro'yxatdan o'tish</button>
                     <button onclick="toggleLoginModal()" class="bg-teal-600 hover:bg-teal-500 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-500 shadow"><i class="fa-solid fa-right-to-bracket mr-1"></i> Tizimga Kirish</button>
                 `;
+                tabPatients.classList.add('hidden');
                 tabBilling.classList.add('hidden');
                 tabSettings.classList.add('hidden');
                 adminRoomControls.classList.add('hidden');
@@ -564,21 +568,21 @@
             saveDB();
             e.target.reset();
             renderPatients();
-            alert("Muvaffaqiyatli qabulga yozildingiz!");
+            alert("Muvaffaqiyatli qabulga yozildi!");
         }
 
         function renderPatients() {
             const tbody = document.getElementById('patients-table');
+            if(!tbody) return;
             tbody.innerHTML = '';
             db.patients.forEach(p => {
-                let deleteBtn = db.currentUser ? `<button onclick="deletePatient(${p.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>` : '<span class="text-xs text-gray-400">Navbatda</span>';
                 tbody.innerHTML += `
                     <tr class="border-b text-sm text-gray-700 hover:bg-gray-50">
                         <td class="p-4 font-bold">${p.name}</td>
                         <td class="p-4">${p.phone}</td>
                         <td class="p-4">${p.doctor}</td>
                         <td class="p-4 text-gray-500">${p.date}</td>
-                        <td class="p-4">${deleteBtn}</td>
+                        <td class="p-4"><button onclick="deletePatient(${p.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
                 `;
             });
