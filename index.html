@@ -173,7 +173,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v16')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v17')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -187,11 +187,11 @@
                 { id: 1, name: "Dr. Alisher Karimov", spec: "Terapevt" },
                 { id: 2, name: "Dr. Malika Umarova", spec: "Kardiolog" }
             ],
-            customMenus: [] // Dinamik menyular ro'yxati
+            customMenus: [] // [{id, name, items: [{id, title, desc, date}]}]
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v16', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v17', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -295,14 +295,14 @@
             const name = document.getElementById('new-menu-name').value.trim();
             if(!name) return;
             const id = 'menu_' + Date.now();
-            db.customMenus.push({ id, name });
+            db.customMenus.push({ id, name, items: [] });
             saveDB();
             document.getElementById('new-menu-name').value = '';
             initApp();
         }
 
         function deleteCustomMenu(id) {
-            if(confirm("Bu menyuni va uning ma'lumotlarini o'chirishni xohlaysizmi?")) {
+            if(confirm("Bu menyuni va uning ichidagi barcha ma'lumotlarni o'chirishni xohlaysizmi?")) {
                 db.customMenus = db.customMenus.filter(m => m.id !== id);
                 saveDB();
                 initApp();
@@ -333,12 +333,51 @@
             }
         }
 
+        // Menyu ichiga ma'lumot (matn/fayl) qo'shish
+        function addItemToMenu(menuId) {
+            const titleInput = document.getElementById(`item-title-${menuId}`);
+            const descInput = document.getElementById(`item-desc-${menuId}`);
+            
+            const title = titleInput.value.trim();
+            const desc = descInput.value.trim();
+
+            if(!title) {
+                alert("Sarlavha yoki nomni kiriting!");
+                return;
+            }
+
+            let menu = db.customMenus.find(m => m.id === menuId);
+            if(menu) {
+                if(!menu.items) menu.items = [];
+                menu.items.push({
+                    id: Date.now(),
+                    title,
+                    desc: desc || "Izoh kiritilmagan",
+                    date: new Date().toLocaleString()
+                });
+                saveDB();
+                renderCustomMenus();
+                // Ochiq turgan tabda qolish
+                switchTab(menuId);
+            }
+        }
+
+        function deleteMenuItem(menuId, itemId) {
+            if(confirm("Ushbu yozuvni o'chirishni tasdiqlaysizmi?")) {
+                let menu = db.customMenus.find(m => m.id === menuId);
+                if(menu) {
+                    menu.items = menu.items.filter(i => i.id !== itemId);
+                    saveDB();
+                    renderCustomMenus();
+                    switchTab(menuId);
+                }
+            }
+        }
+
         function renderCustomMenus() {
             const tabsContainer = document.getElementById('nav-tabs-container');
             const mainContainer = document.getElementById('dynamic-menus-container');
 
-            // Asosiy statik tablardan keyingi qismini tozalash va qaytadan yig'ish
-            // Faqat rooms va doctors qoladi, qolgan custom tablar dinamik qo'shiladi
             const staticTabs = `
                 <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
                 <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
@@ -361,17 +400,55 @@
                     </button>
                 `;
 
+                // Admin uchun ma'lumot/fayl qo'shish formasi
+                let adminAddForm = (db.currentUser && db.currentUser.role === 'admin') ? `
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                        <h4 class="font-bold text-gray-800 text-base"><i class="fa-solid fa-plus-circle text-teal-600 mr-2"></i>Yangi ma'lumot yoki fayl qo'shish</h4>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <input type="text" id="item-title-${menu.id}" placeholder="Mavzu / Fayl nomi" class="px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <input type="text" id="item-desc-${menu.id}" placeholder="Matn / Havola / Tavsif" class="px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <button onclick="addItemToMenu('${menu.id}')" class="bg-teal-600 text-white py-2.5 rounded-xl font-semibold text-sm hover:bg-teal-700 transition shadow">Qo'shish</button>
+                        </div>
+                    </div>
+                ` : '';
+
+                // Elementlar ro'yxatini shakllantirish
+                let itemsListHTML = '';
+                if(menu.items && menu.items.length > 0) {
+                    menu.items.forEach(item => {
+                        let deleteBtn = (db.currentUser && db.currentUser.role === 'admin') ? `
+                            <button onclick="deleteMenuItem('${menu.id}', ${item.id})" class="text-red-500 hover:text-red-700 text-sm"><i class="fa-solid fa-trash"></i></button>
+                        ` : '';
+
+                        itemsListHTML += `
+                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+                                <div class="space-y-1">
+                                    <h5 class="font-bold text-gray-800 text-base flex items-center"><i class="fa-solid fa-file-lines text-teal-600 mr-2"></i>${item.title}</h5>
+                                    <p class="text-sm text-gray-600">${item.desc}</p>
+                                    <span class="text-xs text-gray-400">${item.date}</span>
+                                </div>
+                                ${deleteBtn}
+                            </div>
+                        `;
+                    });
+                } else {
+                    itemsListHTML = `
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center text-gray-500">
+                            <i class="fa-solid fa-folder-open text-4xl text-gray-300 mb-3"></i>
+                            <p class="text-base font-medium">Bu bo'limda hozircha ma'lumotlar yo'q.</p>
+                        </div>
+                    `;
+                }
+
                 mainContainer.innerHTML += `
                     <div id="content-${menu.id}" class="hidden space-y-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800">${menu.name}</h3>
-                                <p class="text-sm text-gray-500">Ushbu bo'lim ma'lumotlari</p>
-                            </div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 class="text-xl font-bold text-gray-800">${menu.name}</h3>
+                            <p class="text-sm text-gray-500">Ushbu bo'limdagi barcha ma'lumotlar va fayllar</p>
                         </div>
-                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center text-gray-500">
-                            <i class="fa-solid fa-file-lines text-4xl text-teal-600 mb-3"></i>
-                            <p class="text-base font-medium">"${menu.name}" bo'limi uchun ma'lumotlar qo'shilmoqda.</p>
+                        ${adminAddForm}
+                        <div class="space-y-4">
+                            ${itemsListHTML}
                         </div>
                     </div>
                 `;
