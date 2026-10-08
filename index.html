@@ -266,7 +266,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v11')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v12')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -284,7 +284,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v11', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v12', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -366,7 +366,6 @@
                     tabBilling.classList.remove('hidden');
                     tabSettings.classList.remove('hidden');
                 } else {
-                    // Agar xodim bo'lsa, Kvitansiya va Xodimlar boshqaruvi ko'rinmaydi
                     adminRoomControls.classList.add('hidden');
                     adminDocControls.classList.add('hidden');
                     tabBilling.classList.add('hidden');
