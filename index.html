@@ -16,7 +16,7 @@
                 <i class="fa-solid fa-hospital-user text-2xl"></i>
                 <span class="text-xl font-bold">Shifo Clinic</span>
             </div>
-            <div id="user-info" class="flex items-center space-x-4">
+            <div id="user-info" class="hidden flex items-center space-x-4">
                 <span id="welcome-msg" class="text-sm">Xush kelibsiz!</span>
                 <button onclick="logout()" class="bg-teal-700 hover:bg-teal-800 px-3 py-1 rounded text-sm transition"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
             </div>
@@ -24,27 +24,49 @@
     </header>
 
     <main class="container mx-auto px-6 py-8">
+        
+        <!-- Auth Section (Login / Register separated) -->
+        <div id="auth-section" class="max-w-md mx-auto bg-white p-8 rounded-xl shadow-md">
+            <!-- Auth Toggle Tabs -->
+            <div class="flex border-b mb-6">
+                <button onclick="switchAuthTab('login')" id="auth-tab-login" class="flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600">Kirish</button>
+                <button onclick="switchAuthTab('register')" id="auth-tab-register" class="flex-1 pb-3 font-bold text-gray-400">Ro'yxatdan o'tish</button>
+            </div>
 
-        <!-- Auth Section (Login / Register) -->
-        <div id="auth-section" class="max-md mx-auto bg-white p-8 rounded-xl shadow-md max-w-md">
-            <h2 id="auth-title" class="text-2xl font-bold text-gray-800 mb-6 text-center">Tizimga Kirish</h2>
-            <form id="auth-form" onsubmit="handleAuth(event)" class="space-y-4">
+            <!-- Login Form -->
+            <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    <input type="email" id="login-email" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Parol</label>
-                    <input type="password" id="password" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                    <input type="password" id="login-password" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
                 </div>
-                <button type="submit" class="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 font-semibold transition">Kirish / Ro'yxatdan o'tish</button>
+                <button type="submit" class="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 font-semibold transition">Tizimga Kirish</button>
             </form>
-            <p class="text-xs text-gray-500 mt-4 text-center">Birinchi kirgan foydalanuvchi avtomatik ravishda <b>Admin</b> bo'ladi.</p>
+
+            <!-- Register Form -->
+            <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Ism / F.I.O</label>
+                    <input type="text" id="reg-name" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Email</label>
+                    <input type="email" id="reg-email" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Parol</label>
+                    <input type="password" id="reg-password" required class="w-full mt-1 px-4 py-2 border rounded-lg focus:ring-teal-500 focus:border-teal-500">
+                </div>
+                <button type="submit" class="w-full bg-teal-600 text-white py-2 rounded-lg hover:bg-teal-700 font-semibold transition">Ro'yxatdan O'tish</button>
+            </form>
         </div>
 
         <!-- Main App Dashboard -->
         <div id="app-section" class="hidden space-y-8">
-
+            
             <!-- Tabs -->
             <div class="flex space-x-4 border-b pb-2 overflow-x-auto">
                 <button onclick="switchTab('rooms')" id="tab-rooms" class="px-4 py-2 font-medium text-teal-600 border-b-2 border-teal-600 whitespace-nowrap"><i class="fa-solid fa-door-open"></i> Xonalar va Holati</button>
@@ -62,9 +84,7 @@
                         <button onclick="addRoom()" class="bg-teal-600 text-white px-4 py-1 rounded text-sm hover:bg-teal-700">Xona Qo'shish</button>
                     </div>
                 </div>
-                <div id="rooms-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Dynamic Rooms -->
-                </div>
+                <div id="rooms-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
             <!-- Doctors Tab -->
@@ -77,9 +97,7 @@
                         <button onclick="addDoctor()" class="bg-teal-600 text-white px-4 py-1 rounded text-sm hover:bg-teal-700">Shifokor Qo'shish</button>
                     </div>
                 </div>
-                <div id="doctors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <!-- Dynamic Doctors -->
-                </div>
+                <div id="doctors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
 
             <!-- Patients Tab -->
@@ -135,7 +153,7 @@
         </div>
     </main>
 
-    <!-- Receipt Print Modal / Area -->
+    <!-- Receipt Print Area -->
     <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-8 flex flex-col justify-between max-w-sm mx-auto my-auto shadow-2xl border h-fit rounded-xl">
         <div class="text-center space-y-2">
             <h2 class="text-xl font-bold">SHIFO CLINIC</h2>
@@ -150,12 +168,11 @@
         </div>
         <div class="text-center mt-6 space-y-2">
             <p class="text-xs text-gray-400">Sog'ligingiz uchun rahmat!</p>
-            <button onclick="closeReceipt()" class="bg-gray-800 text-white px-4 py-1 rounded text-sm w-full">Yopish / Ortga</button>
+            <button onclick="closeReceipt()" class="bg-gray-800 text-white px-4 py-1 rounded text-sm w-full">Yopish</button>
         </div>
     </div>
 
     <script>
-        // LocalStorage based Database State
         let db = JSON.parse(localStorage.getItem('shifo_db')) || {
             users: [],
             currentUser: null,
@@ -175,19 +192,46 @@
             localStorage.setItem('shifo_db', JSON.stringify(db));
         }
 
-        // Auth Logic
-        function handleAuth(e) {
-            e.preventDefault();
-            const email = document.getElementById('email').value;
-            const pass = document.getElementById('password').value;
+        function switchAuthTab(tab) {
+            if(tab === 'login') {
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('register-form').classList.add('hidden');
+                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600";
+                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-gray-400";
+            } else {
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('register-form').classList.remove('hidden');
+                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600";
+                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-gray-400";
+            }
+        }
 
-            let user = db.users.find(u => u.email === email);
-            if (!user) {
-                const isAdmin = db.users.length === 0; // Birinchi foydalanuvchi admin
-                user = { email, pass, role: isAdmin ? 'admin' : 'staff' };
-                db.users.push(user);
-            } else if (user.pass !== pass) {
-                alert('Parol xato!');
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pass = document.getElementById('reg-password').value;
+
+            if(db.users.some(u => u.email === email)) {
+                alert("Bu email allaqachon ro'yxatdan o'tgan!");
+                return;
+            }
+
+            const isAdmin = db.users.length === 0; // Birinchi ro'yxatdan o'tgan odam Admin bo'ladi
+            db.users.push({ name, email, pass, role: isAdmin ? 'admin' : 'staff' });
+            saveDB();
+            alert("Muvaffaqiyatli ro'yxatdan o'tdingiz! Endi 'Kirish' bo'limi orqali kiring.");
+            switchAuthTab('login');
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pass = document.getElementById('login-password').value;
+
+            const user = db.users.find(u => u.email === email && u.pass === pass);
+            if(!user) {
+                alert("Email yoki parol xato! Yoki oldin ro'yxatdan o'tmagansiz.");
                 return;
             }
 
@@ -205,9 +249,10 @@
         function initApp() {
             if (db.currentUser) {
                 document.getElementById('auth-section').classList.add('hidden');
+                document.getElementById('user-info').classList.remove('hidden');
                 document.getElementById('app-section').classList.remove('hidden');
-                document.getElementById('welcome-msginnerText = `Xush kelibsiz, ${db.currentUser.email} (${db.currentUser.role.toUpperCase()})`';
-
+                document.getElementById('welcome-msg').innerText = `Xush kelibsiz, ${db.currentUser.name} (${db.currentUser.role.toUpperCase()})`;
+                
                 if (db.currentUser.role === 'admin') {
                     document.getElementById('admin-room-controls').classList.remove('hidden');
                     document.getElementById('admin-doctor-controls').classList.remove('hidden');
@@ -217,28 +262,25 @@
                 renderPatients();
             } else {
                 document.getElementById('auth-section').classList.remove('hidden');
+                document.getElementById('user-info').classList.add('hidden');
                 document.getElementById('app-section').classList.add('hidden');
             }
         }
 
-        // Tabs switcher
         function switchTab(tab) {
             ['rooms', 'doctors', 'patients', 'billing'].forEach(t => {
                 document.getElementById(`content-${t}`).classList.add('hidden');
-                document.getElementById(`tab-${t}`).classList.remove('text-teal-600', 'border-b-2', 'border-teal-600');
-                document.getElementById(`tab-${t}`).classList.add('text-gray-500');
+                document.getElementById(`tab-${t}`).className = "px-4 py-2 font-medium text-gray-500 whitespace-nowrap";
             });
             document.getElementById(`content-${tab}`).classList.remove('hidden');
-            document.getElementById(`tab-${tab}`).classList.add('text-teal-600', 'border-b-2', 'border-teal-600');
-            document.getElementById(`tab-${tab}`).classList.remove('text-gray-500');
+            document.getElementById(`tab-${tab}`).className = "px-4 py-2 font-medium text-teal-600 border-b-2 border-teal-600 whitespace-nowrap";
         }
 
-        // Rooms Management
         function renderRooms() {
             const grid = document.getElementById('rooms-grid');
             grid.innerHTML = '';
             db.rooms.forEach(room => {
-                let statusColor = room.status === 'Bo'sh' ? 'bg-green-100 text-green-800' : room.status === 'Band' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800';
+                let statusColor = room.status === "Bo'sh" ? 'bg-green-100 text-green-800' : room.status === 'Band' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800';
                 grid.innerHTML += `
                     <div class="bg-white p-6 rounded-xl shadow-md border space-y-4">
                         <div class="flex justify-between items-center">
@@ -247,7 +289,7 @@
                         </div>
                         ${db.currentUser.role === 'admin' ? `
                         <div class="flex space-x-2 pt-2 border-t">
-                            <button onclick="updateRoomStatus(${room.id}, 'Bo\'sh')" class="flex-1 bg-green-50 text-green-600 py-1 rounded text-xs font-medium hover:bg-green-100">Bo'sh</button>
+                            <button onclick="updateRoomStatus(${room.id}, 'Bo\\'sh')" class="flex-1 bg-green-50 text-green-600 py-1 rounded text-xs font-medium hover:bg-green-100">Bo'sh</button>
                             <button onclick="updateRoomStatus(${room.id}, 'Band')" class="flex-1 bg-red-50 text-red-600 py-1 rounded text-xs font-medium hover:bg-red-100">Band</button>
                             <button onclick="updateRoomStatus(${room.id}, 'Tozalanmoqda')" class="flex-1 bg-yellow-50 text-yellow-600 py-1 rounded text-xs font-medium hover:bg-yellow-100">Tozalash</button>
                         </div>` : ''}
@@ -274,7 +316,6 @@
             }
         }
 
-        // Doctors Management
         function renderDoctors() {
             const grid = document.getElementById('doctors-grid');
             const select = document.getElementById('p-doctor');
@@ -302,7 +343,6 @@
             renderDoctors();
         }
 
-        // Patients Management
         function addPatient(e) {
             e.preventDefault();
             const name = document.getElementById('p-name').value;
@@ -326,7 +366,7 @@
                         <td class="p-3">${p.phone}</td>
                         <td class="p-3">${p.doctor}</td>
                         <td class="p-3 text-gray-500">${p.date}</td>
-                        <td class="p-3"><button onclick="deletePatient(${p.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></td >
+                        <td class="p-3"><button onclick="deletePatient(${p.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
                     </tr>
                 `;
             });
@@ -338,7 +378,6 @@
             renderPatients();
         }
 
-        // Billing & Receipt
         function printReceipt() {
             const patient = document.getElementById('bill-patient').value;
             const service = document.getElementById('bill-service').value;
@@ -362,7 +401,6 @@
             document.getElementById('print-area').classList.add('hidden');
         }
 
-        // Initialize on load
         initApp();
     </script>
 </body>
