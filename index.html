@@ -19,15 +19,13 @@
                     <p class="text-xs text-teal-200">Rasmiy Tibbiyot Markazi</p>
                 </div>
             </div>
-            <div id="nav-auth-area" class="flex items-center space-x-3">
-                <!-- Dinamik ravishda Kirish tugmasi yoki Foydalanuvchi ismi chiqadi -->
-            </div>
+            <div id="nav-auth-area" class="flex items-center space-x-3"></div>
         </div>
     </header>
 
     <main class="container mx-auto px-6 py-8 space-y-6">
         
-        <!-- Navigation Tabs (Hamma uchun ochiq) -->
+        <!-- Navigation Tabs -->
         <div class="flex space-x-2 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
             <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
             <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
@@ -98,7 +96,7 @@
             </div>
         </div>
 
-        <!-- Billing Tab Content (Admin/Staff only) -->
+        <!-- Billing Tab Content -->
         <div id="content-billing" class="hidden space-y-6">
             <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-xl mx-auto">
                 <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">To'lov va Kvitansiya Cheki</h3>
@@ -121,7 +119,7 @@
             </div>
         </div>
 
-        <!-- Settings & Staff Tab (Admin Only) -->
+        <!-- Settings & Staff Tab -->
         <div id="content-settings" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
@@ -184,6 +182,39 @@
         </div>
     </div>
 
+    <!-- Edit Room Modal -->
+    <div id="edit-room-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full space-y-4">
+            <h3 class="text-lg font-bold text-gray-800">Xonani Tahrirlash</h3>
+            <input type="hidden" id="edit-room-id">
+            <input type="text" id="edit-room-input" class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Xona nomi">
+            <div class="flex space-x-2">
+                <button onclick="closeEditRoomModal()" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold hover:bg-gray-300 transition">Bekor qilish</button>
+                <button onclick="saveRoomEdit()" class="flex-1 bg-teal-600 text-white py-2 rounded-xl text-sm font-semibold hover:bg-teal-700 transition">Saqlash</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Doctor Modal -->
+    <div id="edit-doc-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full space-y-4">
+            <h3 class="text-lg font-bold text-gray-800">Shifokorni Tahrirlash</h3>
+            <input type="hidden" id="edit-doc-id">
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">F.I.O</label>
+                <input type="text" id="edit-doc-name" class="w-full px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div>
+                <label class="block text-xs font-semibold text-gray-600 mb-1">Mutaxassisligi</label>
+                <input type="text" id="edit-doc-spec" class="w-full px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+            </div>
+            <div class="flex space-x-2 pt-2">
+                <button onclick="closeEditDocModal()" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold hover:bg-gray-300 transition">Bekor qilish</button>
+                <button onclick="saveDocEdit()" class="flex-1 bg-teal-600 text-white py-2 rounded-xl text-sm font-semibold hover:bg-teal-700 transition">Saqlash</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Receipt Print Area -->
     <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-8 flex flex-col justify-between max-w-sm mx-auto my-auto shadow-2xl border h-fit rounded-2xl">
         <div class="text-center space-y-1">
@@ -205,7 +236,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v7')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v8')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -223,12 +254,11 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v7', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v8', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
-            const modal = document.getElementById('login-modal');
-            modal.classList.toggle('hidden');
+            document.getElementById('login-modal').classList.toggle('hidden');
         }
 
         function handleLogin(e) {
@@ -322,7 +352,7 @@
                     </div>
                     ${db.currentUser.role === 'admin' ? `
                     <div class="pt-2 flex justify-between items-center border-t text-xs">
-                        <button onclick="editRoom(${room.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
+                        <button onclick="openEditRoomModal(${room.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
                         <button onclick="deleteRoom(${room.id})" class="text-red-500 hover:text-red-700 font-medium"><i class="fa-solid fa-trash"></i> O'chirish</button>
                     </div>` : ''}
                 ` : '';
@@ -348,13 +378,27 @@
             renderRooms();
         }
 
-        function editRoom(id) {
+        function openEditRoomModal(id) {
             let room = db.rooms.find(r => r.id === id);
-            let newName = prompt("Xona nomini o'zgartirish:", room.name);
-            if(newName && newName.trim()) {
-                room.name = newName.trim();
+            document.getElementById('edit-room-id').value = room.id;
+            document.getElementById('edit-room-input').value = room.name;
+            document.getElementById('edit-room-modal').classList.remove('hidden');
+        }
+
+        function closeEditRoomModal() {
+            document.getElementById('edit-room-modal').classList.add('hidden');
+        }
+
+        function saveRoomEdit() {
+            let id = Number(document.getElementById('edit-room-id').value);
+            let newName = document.getElementById('edit-room-input').value.trim();
+            if(!newName) return;
+            let room = db.rooms.find(r => r.id === id);
+            if(room) {
+                room.name = newName;
                 saveDB();
                 renderRooms();
+                closeEditRoomModal();
             }
         }
 
@@ -384,7 +428,7 @@
             db.doctors.forEach(doc => {
                 let adminControls = (db.currentUser && db.currentUser.role === 'admin') ? `
                     <div class="pt-3 flex justify-between items-center border-t text-xs">
-                        <button onclick="editDoctor(${doc.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
+                        <button onclick="openEditDocModal(${doc.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
                         <button onclick="deleteDoctor(${doc.id})" class="text-red-500 hover:text-red-700 font-medium"><i class="fa-solid fa-trash"></i> O'chirish</button>
                     </div>
                 ` : '';
@@ -411,15 +455,30 @@
             renderDoctors();
         }
 
-        function editDoctor(id) {
+        function openEditDocModal(id) {
             let doc = db.doctors.find(d => d.id === id);
-            let newName = prompt("Shifokor F.I.O:", doc.name);
-            let newSpec = prompt("Mutaxassisligi:", doc.spec);
-            if(newName && newSpec) {
-                doc.name = newName.trim();
-                doc.spec = newSpec.trim();
+            document.getElementById('edit-doc-id').value = doc.id;
+            document.getElementById('edit-doc-name').value = doc.name;
+            document.getElementById('edit-doc-spec').value = doc.spec;
+            document.getElementById('edit-doc-modal').classList.remove('hidden');
+        }
+
+        function closeEditDocModal() {
+            document.getElementById('edit-doc-modal').classList.add('hidden');
+        }
+
+        function saveDocEdit() {
+            let id = Number(document.getElementById('edit-doc-id').value);
+            let name = document.getElementById('edit-doc-name').value.trim();
+            let spec = document.getElementById('edit-doc-spec').value.trim();
+            if(!name || !spec) return;
+            let doc = db.doctors.find(d => d.id === id);
+            if(doc) {
+                doc.name = name;
+                doc.spec = spec;
                 saveDB();
                 renderDoctors();
+                closeEditDocModal();
             }
         }
 
