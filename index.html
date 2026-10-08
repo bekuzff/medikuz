@@ -25,13 +25,17 @@
 
     <main class="container mx-auto px-6 py-8 space-y-6">
         
-        <!-- Navigation Tabs -->
-        <div class="flex space-x-2 bg-white p-2 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
-            <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
-            <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
-            <button onclick="switchTab('patients')" id="tab-patients" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-users"></i><span>Bemorlar & Qabul</span></button>
-            <button onclick="switchTab('billing')" id="tab-billing" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-receipt"></i><span>Kvitansiya & Chek</span></button>
-            <button onclick="switchTab('settings')" id="tab-settings" class="hidden flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-gear"></i><span>Xodimlar Boshqaruvi</span></button>
+        <!-- Navigation Tabs & Admin Menu Management -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-4 rounded-2xl shadow-sm border border-gray-100 gap-4">
+            <div id="nav-tabs-container" class="flex space-x-2 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+                <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
+                <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
+            </div>
+            <!-- Admin Menu Creator Control -->
+            <div id="admin-menu-creator" class="hidden flex items-center space-x-2 w-full md:w-auto">
+                <input type="text" id="new-menu-name" placeholder="Yangi menyu nomi" class="px-4 py-2 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 w-full md:w-auto">
+                <button onclick="addNewMenu()" class="bg-teal-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-teal-700 transition shadow whitespace-nowrap"><i class="fa-solid fa-plus mr-1"></i> Menyuni qo'shish</button>
+            </div>
         </div>
 
         <!-- Rooms Tab Content -->
@@ -65,97 +69,8 @@
             <div id="doctors-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
         </div>
 
-        <!-- Patients Tab Content (Admin Only) -->
-        <div id="content-patients" class="hidden space-y-6">
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-lg font-bold text-gray-800"><i class="fa-solid fa-user-plus text-teal-600 mr-2"></i>Bemorlarni Qabulga Yozish</h3>
-                </div>
-                <form onsubmit="addPatient(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <input type="text" id="p-name" placeholder="Bemor F.I.O" required class="px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <input type="text" id="p-phone" placeholder="+998 90 123 45 67" required class="px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <select id="p-doctor" class="px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 bg-white"></select>
-                    <button type="submit" class="bg-teal-600 text-white py-2.5 rounded-xl hover:bg-teal-700 font-semibold transition shadow">Qabulga yozish</button>
-                </form>
-            </div>
-            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
-                <h3 class="text-lg font-bold text-gray-800 mb-4">Ro'yxatdagi Bemorlar Jadvali</h3>
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="border-b bg-gray-50 text-gray-600 text-sm">
-                            <th class="p-4">Bemor</th>
-                            <th class="p-4">Telefon</th>
-                            <th class="p-4">Shifokor</th>
-                            <th class="p-4">Sana va Vaqt</th>
-                            <th class="p-4">Amal</th>
-                        </tr>
-                    </thead>
-                    <tbody id="patients-table"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Billing Tab Content (Admin Only) -->
-        <div id="content-billing" class="hidden space-y-6">
-            <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-xl mx-auto">
-                <h3 class="text-xl font-bold text-gray-800 mb-2 text-center">To'lov va Kvitansiya Cheki</h3>
-                <p class="text-sm text-gray-500 text-center mb-6">Xizmat uchun to'lov qabul qilib, rasmiy chek chop eting</p>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Bemor F.I.O</label>
-                        <input type="text" id="bill-patient" class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Bemorning to'liq ismi">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Xizmat Turi / Tashxis</label>
-                        <input type="text" id="bill-service" class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Masalan: Terapevt ko'rigi va tahlillar">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-1">Summasi (so'mda)</label>
-                        <input type="number" id="bill-amount" class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="150000">
-                    </div>
-                    <button onclick="printReceipt()" class="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 font-semibold transition shadow-md"><i class="fa-solid fa-print mr-2"></i> Chekni Chop Etish</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Settings & Staff Tab (Admin Only) -->
-        <div id="content-settings" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4"><i class="fa-solid fa-user-gear text-teal-600 mr-2"></i>Yangi Xodim Qo'shish</h3>
-                    <form onsubmit="addStaff(event)" class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">Xodim F.I.O</label>
-                            <input type="text" id="staff-name" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Ism Familiya">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                            <input type="email" id="staff-email" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="xodim@shifo.uz">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-1">Parol</label>
-                            <input type="password" id="staff-password" required class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="••••••••">
-                        </div>
-                        <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 font-semibold transition shadow">Xodimni Qo'shish</button>
-                    </form>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 overflow-x-auto">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">Xodimlar Ro'yxati</h3>
-                    <table class="w-full text-left border-collapse text-sm">
-                        <thead>
-                            <tr class="border-b bg-gray-50 text-gray-600">
-                                <th class="p-3">Ism</th>
-                                <th class="p-3">Email</th>
-                                <th class="p-3">Rol</th>
-                                <th class="p-3">Amal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="staff-table"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+        <!-- Dynamic Custom Menus Container -->
+        <div id="dynamic-menus-container"></div>
 
     </main>
 
@@ -244,28 +159,21 @@
         </div>
     </div>
 
-    <!-- Receipt Print Area -->
-    <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-8 flex flex-col justify-between max-w-sm mx-auto my-auto shadow-2xl border h-fit rounded-2xl">
-        <div class="text-center space-y-1">
-            <h2 class="text-xl font-bold tracking-wider">SHIFO CLINIC</h2>
-            <p class="text-xs text-gray-500">Tibbiyot Markazi Kvitansiyasi</p>
-            <hr class="my-3 border-dashed">
-        </div>
-        <div class="space-y-3 text-sm text-gray-700">
-            <p class="flex justify-between"><b>Bemor:</b> <span id="r-patient"></span></p>
-            <p class="flex justify-between"><b>Xizmat:</b> <span id="r-service"></span></p>
-            <p class="flex justify-between"><b>Summa:</b> <span id="r-amount" class="font-bold text-teal-700"></span> so'm</p>
-            <p class="flex justify-between"><b>Sana:</b> <span id="r-date" class="text-xs text-gray-500"></span></p>
-        </div>
-        <div class="text-center mt-6 space-y-3">
-            <hr class="border-dashed">
-            <p class="text-xs text-gray-400">Sog'ligingiz — bizning oliy maqsadimiz!</p>
-            <button onclick="closeReceipt()" class="bg-gray-800 text-white py-2 px-4 rounded-xl text-sm font-medium w-full hover:bg-gray-900 transition">Orqaga qaytish</button>
+    <!-- Edit Menu Name Modal -->
+    <div id="edit-menu-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-2xl shadow-2xl max-w-sm w-full space-y-4">
+            <h3 class="text-lg font-bold text-gray-800">Menyu Nomini O'zgartirish</h3>
+            <input type="hidden" id="edit-menu-id">
+            <input type="text" id="edit-menu-name-input" class="w-full px-4 py-2.5 border rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500" placeholder="Yangi nom">
+            <div class="flex space-x-2">
+                <button onclick="closeEditMenuModal()" class="flex-1 bg-gray-200 text-gray-700 py-2 rounded-xl text-sm font-semibold hover:bg-gray-300 transition">Bekor qilish</button>
+                <button onclick="saveMenuEdit()" class="flex-1 bg-teal-600 text-white py-2 rounded-xl text-sm font-semibold hover:bg-teal-700 transition">Saqlash</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v15')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v16')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -279,11 +187,11 @@
                 { id: 1, name: "Dr. Alisher Karimov", spec: "Terapevt" },
                 { id: 2, name: "Dr. Malika Umarova", spec: "Kardiolog" }
             ],
-            patients: []
+            customMenus: [] // Dinamik menyular ro'yxati
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v15', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v16', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -348,11 +256,9 @@
 
         function initApp() {
             const navAuth = document.getElementById('nav-auth-area');
-            const tabPatients = document.getElementById('tab-patients');
-            const tabBilling = document.getElementById('tab-billing');
-            const tabSettings = document.getElementById('tab-settings');
             const adminRoomControls = document.getElementById('admin-room-controls');
             const adminDocControls = document.getElementById('admin-doctor-controls');
+            const adminMenuCreator = document.getElementById('admin-menu-creator');
 
             if (db.currentUser && db.currentUser.role === 'admin') {
                 navAuth.innerHTML = `
@@ -361,9 +267,7 @@
                 `;
                 adminRoomControls.classList.remove('hidden');
                 adminDocControls.classList.remove('hidden');
-                tabPatients.classList.remove('hidden');
-                tabBilling.classList.remove('hidden');
-                tabSettings.classList.remove('hidden');
+                adminMenuCreator.classList.remove('hidden');
             } else if (db.currentUser && db.currentUser.role !== 'admin') {
                 navAuth.innerHTML = `
                     <span class="text-sm bg-teal-800 px-3 py-1.5 rounded-lg">${db.currentUser.name} (XODIM)</span>
@@ -371,9 +275,7 @@
                 `;
                 adminRoomControls.classList.add('hidden');
                 adminDocControls.classList.add('hidden');
-                tabPatients.classList.add('hidden');
-                tabBilling.classList.add('hidden');
-                tabSettings.classList.add('hidden');
+                adminMenuCreator.classList.add('hidden');
             } else {
                 navAuth.innerHTML = `
                     <button onclick="toggleRegisterModal()" class="bg-teal-800 hover:bg-teal-900 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-600 shadow"><i class="fa-solid fa-user-plus mr-1"></i> Ro'yxatdan o'tish</button>
@@ -381,22 +283,104 @@
                 `;
                 adminRoomControls.classList.add('hidden');
                 adminDocControls.classList.add('hidden');
-                tabPatients.classList.add('hidden');
-                tabBilling.classList.add('hidden');
-                tabSettings.classList.add('hidden');
+                adminMenuCreator.classList.add('hidden');
             }
             renderRooms();
             renderDoctors();
-            renderPatients();
-            renderStaff();
+            renderCustomMenus();
+        }
+
+        // Dinamik menyularni boshqarish
+        function addNewMenu() {
+            const name = document.getElementById('new-menu-name').value.trim();
+            if(!name) return;
+            const id = 'menu_' + Date.now();
+            db.customMenus.push({ id, name });
+            saveDB();
+            document.getElementById('new-menu-name').value = '';
+            initApp();
+        }
+
+        function deleteCustomMenu(id) {
+            if(confirm("Bu menyuni va uning ma'lumotlarini o'chirishni xohlaysizmi?")) {
+                db.customMenus = db.customMenus.filter(m => m.id !== id);
+                saveDB();
+                initApp();
+                switchTab('rooms');
+            }
+        }
+
+        function openEditMenuModal(id, currentName) {
+            document.getElementById('edit-menu-id').value = id;
+            document.getElementById('edit-menu-name-input').value = currentName;
+            document.getElementById('edit-menu-modal').classList.remove('hidden');
+        }
+
+        function closeEditMenuModal() {
+            document.getElementById('edit-menu-modal').classList.add('hidden');
+        }
+
+        function saveMenuEdit() {
+            const id = document.getElementById('edit-menu-id').value;
+            const newName = document.getElementById('edit-menu-name-input').value.trim();
+            if(!newName) return;
+            let menu = db.customMenus.find(m => m.id === id);
+            if(menu) {
+                menu.name = newName;
+                saveDB();
+                initApp();
+                closeEditMenuModal();
+            }
+        }
+
+        function renderCustomMenus() {
+            const tabsContainer = document.getElementById('nav-tabs-container');
+            const mainContainer = document.getElementById('dynamic-menus-container');
+
+            // Asosiy statik tablardan keyingi qismini tozalash va qaytadan yig'ish
+            // Faqat rooms va doctors qoladi, qolgan custom tablar dinamik qo'shiladi
+            const staticTabs = `
+                <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
+                <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
+            `;
+            tabsContainer.innerHTML = staticTabs;
+            mainContainer.innerHTML = '';
+
+            db.customMenus.forEach(menu => {
+                let adminTabEditControls = (db.currentUser && db.currentUser.role === 'admin') ? `
+                    <div class="ml-2 flex items-center space-x-1 border-l pl-2">
+                        <button onclick="event.stopPropagation(); openEditMenuModal('${menu.id}', '${menu.name}')" class="text-blue-500 hover:text-blue-700 text-xs px-1"><i class="fa-solid fa-pen"></i></button>
+                        <button onclick="event.stopPropagation(); deleteCustomMenu('${menu.id}')" class="text-red-500 hover:text-red-700 text-xs px-1"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                ` : '';
+
+                tabsContainer.innerHTML += `
+                    <button onclick="switchTab('${menu.id}')" id="tab-${menu.id}" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap">
+                        <i class="fa-solid fa-folder-open"></i><span>${menu.name}</span>
+                        ${adminTabEditControls}
+                    </button>
+                `;
+
+                mainContainer.innerHTML += `
+                    <div id="content-${menu.id}" class="hidden space-y-6">
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex justify-between items-center">
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800">${menu.name}</h3>
+                                <p class="text-sm text-gray-500">Ushbu bo'lim ma'lumotlari</p>
+                            </div>
+                        </div>
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 text-center text-gray-500">
+                            <i class="fa-solid fa-file-lines text-4xl text-teal-600 mb-3"></i>
+                            <p class="text-base font-medium">"${menu.name}" bo'limi uchun ma'lumotlar qo'shilmoqda.</p>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
         function switchTab(tab) {
-            if(['patients', 'billing', 'settings'].includes(tab) && (!db.currentUser || db.currentUser.role !== 'admin')) {
-                tab = 'rooms';
-            }
-
-            ['rooms', 'doctors', 'patients', 'billing', 'settings'].forEach(t => {
+            let allTabs = ['rooms', 'doctors', ...db.customMenus.map(m => m.id)];
+            allTabs.forEach(t => {
                 const el = document.getElementById(`content-${t}`);
                 if(el) el.classList.add('hidden');
                 const btn = document.getElementById(`tab-${t}`);
@@ -491,9 +475,7 @@
         // Doctors
         function renderDoctors() {
             const grid = document.getElementById('doctors-grid');
-            const select = document.getElementById('p-doctor');
             grid.innerHTML = '';
-            select.innerHTML = '';
             db.doctors.forEach(doc => {
                 let adminControls = (db.currentUser && db.currentUser.role === 'admin') ? `
                     <div class="pt-3 flex justify-between items-center border-t text-xs">
@@ -509,7 +491,6 @@
                         ${adminControls}
                     </div>
                 `;
-                select.innerHTML += `<option value="${doc.name}">${doc.name} (${doc.spec})</option>`;
             });
         }
 
@@ -557,113 +538,6 @@
                 saveDB();
                 renderDoctors();
             }
-        }
-
-        // Patients
-        function addPatient(e) {
-            e.preventDefault();
-            const name = document.getElementById('p-name').value.trim();
-            const phone = document.getElementById('p-phone').value.trim();
-            const doctor = document.getElementById('p-doctor').value;
-            const date = new Date().toLocaleString();
-
-            db.patients.push({ id: Date.now(), name, phone, doctor, date });
-            saveDB();
-            e.target.reset();
-            renderPatients();
-            alert("Muvaffaqiyatli qabulga yozildi!");
-        }
-
-        function renderPatients() {
-            const tbody = document.getElementById('patients-table');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            db.patients.forEach(p => {
-                tbody.innerHTML += `
-                    <tr class="border-b text-sm text-gray-700 hover:bg-gray-50">
-                        <td class="p-4 font-bold">${p.name}</td>
-                        <td class="p-4">${p.phone}</td>
-                        <td class="p-4">${p.doctor}</td>
-                        <td class="p-4 text-gray-500">${p.date}</td>
-                        <td class="p-4"><button onclick="deletePatient(${p.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button></td>
-                    </tr>
-                `;
-            });
-        }
-
-        function deletePatient(id) {
-            db.patients = db.patients.filter(p => p.id !== id);
-            saveDB();
-            renderPatients();
-        }
-
-        // Staff
-        function addStaff(e) {
-            e.preventDefault();
-            const name = document.getElementById('staff-name').value.trim();
-            const email = document.getElementById('staff-email').value.trim().toLowerCase();
-            const pass = document.getElementById('staff-password').value;
-
-            if(db.users.some(u => u.email === email)) {
-                alert("Bu email allaqachon mavjud!");
-                return;
-            }
-
-            db.users.push({ id: Date.now(), name, email, pass, role: "staff" });
-            saveDB();
-            alert("Yangi xodim muvaffaqiyatli qo'shildi!");
-            e.target.reset();
-            renderStaff();
-        }
-
-        function renderStaff() {
-            const tbody = document.getElementById('staff-table');
-            if(!tbody) return;
-            tbody.innerHTML = '';
-            db.users.forEach(u => {
-                tbody.innerHTML += `
-                    <tr class="border-b text-sm text-gray-700">
-                        <td class="p-3 font-bold">${u.name}</td>
-                        <td class="p-3">${u.email}</td>
-                        <td class="p-3 uppercase text-xs font-bold text-teal-600">${u.role}</td>
-                        <td class="p-3">
-                            ${u.role !== 'admin' ? `<button onclick="deleteStaff(${u.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>` : 'Asosiy'}
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        function deleteStaff(id) {
-            if(confirm("Xodimni o'chirishni xohlaysizmi?")) {
-                db.users = db.users.filter(u => u.id !== id);
-                saveDB();
-                renderStaff();
-            }
-        }
-
-        // Billing
-        function printReceipt() {
-            const patient = document.getElementById('bill-patient').value.trim();
-            const service = document.getElementById('bill-service').value.trim();
-            const amount = document.getElementById('bill-amount').value.trim();
-
-            if(!patient || !service || !amount) {
-                alert("Barcha maydonlarni to'ldiring!");
-                return;
-            }
-
-            document.getElementById('r-patient').innerText = patient;
-            document.getElementById('r-service').innerText = service;
-            document.getElementById('r-amount').innerText = Number(amount).toLocaleString();
-            document.getElementById('r-date').innerText = new Date().toLocaleString();
-
-            document.getElementById('print-area').classList.remove('hidden');
-            window.print();
-        }
-
-        function closeReceipt() {
-            document.getElementById('print-area').classList.add('hidden');
         }
 
         initApp();
