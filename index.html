@@ -236,7 +236,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v8')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v9')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -254,7 +254,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v8', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v9', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -276,12 +276,14 @@
             saveDB();
             toggleLoginModal();
             initApp();
+            switchTab('rooms');
         }
 
         function logout() {
             db.currentUser = null;
             saveDB();
             initApp();
+            switchTab('rooms');
         }
 
         function initApp() {
@@ -290,14 +292,12 @@
             const tabSettings = document.getElementById('tab-settings');
             const adminRoomControls = document.getElementById('admin-room-controls');
             const adminDocControls = document.getElementById('admin-doctor-controls');
-            const patientNotice = document.getElementById('patient-auth-notice');
 
             if (db.currentUser) {
                 navAuth.innerHTML = `
                     <span class="text-sm bg-teal-800 px-3 py-1.5 rounded-lg">${db.currentUser.name} (${db.currentUser.role.toUpperCase()})</span>
                     <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg text-sm transition font-medium shadow"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
                 `;
-                patientNotice.classList.add('hidden');
                 tabBilling.classList.remove('hidden');
 
                 if (db.currentUser.role === 'admin') {
@@ -313,7 +313,6 @@
                 navAuth.innerHTML = `
                     <button onclick="toggleLoginModal()" class="bg-teal-600 hover:bg-teal-500 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-500 shadow"><i class="fa-solid fa-right-to-bracket mr-1"></i> Tizimga Kirish</button>
                 `;
-                patientNotice.classList.remove('hidden');
                 tabBilling.classList.add('hidden');
                 tabSettings.classList.add('hidden');
                 adminRoomControls.classList.add('hidden');
