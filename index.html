@@ -256,7 +256,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v18')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v19')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -274,7 +274,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v18', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v19', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -342,8 +342,6 @@
             const adminRoomControls = document.getElementById('admin-room-controls');
             const adminDocControls = document.getElementById('admin-doctor-controls');
             const adminMenuCreator = document.getElementById('admin-menu-creator');
-            const tabBilling = document.getElementById('tab-billing');
-            const tabStaff = document.getElementById('tab-staff');
 
             if (db.currentUser && db.currentUser.role === 'admin') {
                 navAuth.innerHTML = `
@@ -353,8 +351,6 @@
                 adminRoomControls.classList.remove('hidden');
                 adminDocControls.classList.remove('hidden');
                 adminMenuCreator.classList.remove('hidden');
-                tabBilling.classList.remove('hidden');
-                tabStaff.classList.remove('hidden');
             } else {
                 navAuth.innerHTML = `
                     <button onclick="toggleRegisterModal()" class="bg-teal-800 hover:bg-teal-900 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-600 shadow"><i class="fa-solid fa-user-plus mr-1"></i> Ro'yxatdan o'tish</button>
@@ -363,13 +359,11 @@
                 adminRoomControls.classList.add('hidden');
                 adminDocControls.classList.add('hidden');
                 adminMenuCreator.classList.add('hidden');
-                tabBilling.classList.add('hidden');
-                tabStaff.classList.add('hidden');
             }
-            renderRooms();
-            renderDoctors();
             renderStaffList();
             renderCustomMenus();
+            renderRooms();
+            renderDoctors();
         }
 
         // Admin xodim qo'shishi
@@ -506,6 +500,7 @@
                 <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-teal-600 bg-teal-50 transition whitespace-nowrap"><i class="fa-solid fa-door-open"></i><span>Xonalar</span></button>
                 <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span></button>
             `;
+            
             if (db.currentUser && db.currentUser.role === 'admin') {
                 staticTabs += `
                     <button onclick="switchTab('billing')" id="tab-billing" class="flex items-center space-x-2 px-5 py-2.5 font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap"><i class="fa-solid fa-receipt"></i><span>Kvitansiya & Chek</span></button>
