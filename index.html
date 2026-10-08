@@ -181,7 +181,6 @@
                 </div>
                 <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-xl hover:bg-teal-700 font-semibold transition shadow-md">Kirish</button>
             </form>
-            <p class="text-xs text-gray-400 text-center">Boshlang'ich Admin: <b>admin@shifo.uz</b> / <b>admin123</b></p>
         </div>
     </div>
 
@@ -206,7 +205,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v6')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v7')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -224,7 +223,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v6', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v7', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
