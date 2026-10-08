@@ -265,7 +265,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v13')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v14')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -283,7 +283,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v13', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v14', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -354,36 +354,36 @@
             const adminRoomControls = document.getElementById('admin-room-controls');
             const adminDocControls = document.getElementById('admin-doctor-controls');
 
-            if (db.currentUser) {
+            if (db.currentUser && db.currentUser.role === 'admin') {
                 navAuth.innerHTML = `
-                    <span class="text-sm bg-teal-800 px-3 py-1.5 rounded-lg">${db.currentUser.name} (${db.currentUser.role.toUpperCase()})</span>
+                    <span class="text-sm bg-teal-800 px-3 py-1.5 rounded-lg">${db.currentUser.name} (ADMIN)</span>
                     <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg text-sm transition font-medium shadow"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
                 `;
-
-                if (db.currentUser.role === 'admin') {
-                    adminRoomControls.classList.remove('hidden');
-                    adminDocControls.classList.remove('hidden');
-                    tabPatients.classList.remove('hidden');
-                    tabBilling.classList.remove('hidden');
-                    tabSettings.classList.remove('hidden');
-                } else {
-                    // Oddiy xodimlar uchun ham barcha admin menyular yashirin bo'ladi
-                    adminRoomControls.classList.add('hidden');
-                    adminDocControls.classList.add('hidden');
-                    tabPatients.classList.add('hidden');
-                    tabBilling.classList.add('hidden');
-                    tabSettings.classList.add('hidden');
-                }
+                adminRoomControls.classList.remove('hidden');
+                adminDocControls.classList.remove('hidden');
+                tabPatients.classList.remove('hidden');
+                tabBilling.classList.remove('hidden');
+                tabSettings.classList.remove('hidden');
+            } else if (db.currentUser && db.currentUser.role !== 'admin') {
+                navAuth.innerHTML = `
+                    <span class="text-sm bg-teal-800 px-3 py-1.5 rounded-lg">${db.currentUser.name} (XODIM)</span>
+                    <button onclick="logout()" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded-lg text-sm transition font-medium shadow"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</button>
+                `;
+                adminRoomControls.classList.add('hidden');
+                adminDocControls.classList.add('hidden');
+                tabPatients.classList.add('hidden');
+                tabBilling.classList.add('hidden');
+                tabSettings.classList.add('hidden');
             } else {
                 navAuth.innerHTML = `
                     <button onclick="toggleRegisterModal()" class="bg-teal-800 hover:bg-teal-900 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-600 shadow"><i class="fa-solid fa-user-plus mr-1"></i> Ro'yxatdan o'tish</button>
                     <button onclick="toggleLoginModal()" class="bg-teal-600 hover:bg-teal-500 px-4 py-2 rounded-xl text-sm font-semibold transition border border-teal-500 shadow"><i class="fa-solid fa-right-to-bracket mr-1"></i> Tizimga Kirish</button>
                 `;
+                adminRoomControls.classList.add('hidden');
+                adminDocControls.classList.add('hidden');
                 tabPatients.classList.add('hidden');
                 tabBilling.classList.add('hidden');
                 tabSettings.classList.add('hidden');
-                adminRoomControls.classList.add('hidden');
-                adminDocControls.classList.add('hidden');
             }
             renderRooms();
             renderDoctors();
@@ -392,6 +392,11 @@
         }
 
         function switchTab(tab) {
+            // Agar admin bo'lmasa va admin tablaridan birini ochmoqchi bo'lsa, xonalarga o'tkazib yuborish
+            if(['patients', 'billing', 'settings'].includes(tab) && (!db.currentUser || db.currentUser.role !== 'admin')) {
+                tab = 'rooms';
+            }
+
             ['rooms', 'doctors', 'patients', 'billing', 'settings'].forEach(t => {
                 const el = document.getElementById(`content-${t}`);
                 if(el) el.classList.add('hidden');
@@ -410,17 +415,16 @@
             grid.innerHTML = '';
             db.rooms.forEach(room => {
                 let statusColor = room.status === "Bo'sh" ? 'bg-green-100 text-green-700 border-green-200' : room.status === 'Band' ? 'bg-red-100 text-red-700 border-red-200' : 'bg-amber-100 text-amber-700 border-amber-200';
-                let adminControls = db.currentUser ? `
+                let adminControls = (db.currentUser && db.currentUser.role === 'admin') ? `
                     <div class="flex space-x-2 pt-3 border-t">
                         <button onclick="updateRoomStatus(${room.id}, 'Bo\\'sh')" class="flex-1 bg-green-50 text-green-700 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-100 transition">Bo'sh</button>
                         <button onclick="updateRoomStatus(${room.id}, 'Band')" class="flex-1 bg-red-50 text-red-700 py-1.5 rounded-lg text-xs font-semibold hover:bg-red-100 transition">Band</button>
                         <button onclick="updateRoomStatus(${room.id}, 'Tozalanmoqda')" class="flex-1 bg-amber-50 text-amber-700 py-1.5 rounded-lg text-xs font-semibold hover:bg-amber-100 transition">Tozalash</button>
                     </div>
-                    ${db.currentUser.role === 'admin' ? `
                     <div class="pt-2 flex justify-between items-center border-t text-xs">
                         <button onclick="openEditRoomModal(${room.id})" class="text-blue-600 hover:text-blue-800 font-medium"><i class="fa-solid fa-pen"></i> Tahrirlash</button>
                         <button onclick="deleteRoom(${room.id})" class="text-red-500 hover:text-red-700 font-medium"><i class="fa-solid fa-trash"></i> O'chirish</button>
-                    </div>` : ''}
+                    </div>
                 ` : '';
 
                 grid.innerHTML += `
