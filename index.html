@@ -265,7 +265,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v14')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v15')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "admin123", role: "admin" }
             ],
@@ -283,7 +283,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v14', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v15', JSON.stringify(db));
         }
 
         function toggleLoginModal() {
@@ -392,7 +392,6 @@
         }
 
         function switchTab(tab) {
-            // Agar admin bo'lmasa va admin tablaridan birini ochmoqchi bo'lsa, xonalarga o'tkazib yuborish
             if(['patients', 'billing', 'settings'].includes(tab) && (!db.currentUser || db.currentUser.role !== 'admin')) {
                 tab = 'rooms';
             }
