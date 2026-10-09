@@ -6,13 +6,24 @@
     <title>Shifo Clinic - Premium Tibbiyot Tizimi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
-        /* Faqat chek qismini qog'ozga chop etish stili */
+
+        /* Termal printer (Paynet / POS terminal) uchun maxsus CSS stili */
         @media print {
+            @page {
+                size: 80mm auto; /* Termal printer va Paynet qog'ozi o'lchami */
+                margin: 0;
+            }
+            html, body {
+                width: 80mm;
+                margin: 0 !important;
+                padding: 0 !important;
+                background: #ffffff !important;
+            }
             body * {
                 visibility: hidden !important;
             }
@@ -21,15 +32,16 @@
             }
             #print-area {
                 position: absolute !important;
-                left: 50% !important;
-                top: 50% !important;
-                transform: translate(-50%, -50%) !important;
-                width: 320px !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 78mm !important;
+                margin: 0 auto !important;
+                padding: 10px !important;
                 box-shadow: none !important;
-                border: 1px solid #e2e8f0 !important;
-                padding: 24px !important;
+                border: none !important;
                 background: #fff !important;
-                border-radius: 16px !important;
+                color: #000 !important;
+                font-family: 'Space Mono', 'Courier New', Courier, monospace !important;
             }
             .no-print {
                 display: none !important;
@@ -259,28 +271,40 @@
         </div>
     </div>
 
-    <!-- Receipt Print Area -->
-    <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-6 flex flex-col justify-between max-w-xs mx-auto my-auto shadow-2xl border h-fit rounded-2xl">
+    <!-- PAYNET / TERMAL TERMINAL PRINT AREA (80mm) -->
+    <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-4 max-w-[300px] mx-auto my-auto shadow-2xl border font-mono text-black">
         <div class="text-center space-y-1">
-            <h2 class="text-lg font-black tracking-wider text-slate-900">SHIFO CLINIC</h2>
-            <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">Tibbiyot Markazi Kvitansiyasi</p>
-            <hr class="my-3 border-dashed border-slate-300">
+            <h2 class="text-base font-black uppercase tracking-wider">SHIFO CLINIC</h2>
+            <p class="text-[9px] uppercase">Tibbiyot Markazi Cheki</p>
+            <p class="text-[8px] text-gray-500">Termin ID: #8841209</p>
+            <p class="text-[8px] text-gray-500">Toshkent sh., Yunusobod r-n</p>
+            <div class="border-b border-dashed border-black my-2"></div>
         </div>
-        <div class="space-y-2.5 text-xs text-slate-800">
-            <p class="flex justify-between"><b>Bemor:</b> <span id="r-patient" class="font-medium"></span></p>
-            <p class="flex justify-between"><b>Xizmat:</b> <span id="r-service" class="font-medium"></span></p>
-            <p class="flex justify-between"><b>Summa:</b> <span id="r-amount" class="font-bold text-teal-700"></span> so'm</p>
-            <p class="flex justify-between"><b>Sana:</b> <span id="r-date" class="text-[10px] text-slate-400"></span></p>
+        <div class="space-y-1.5 text-[11px] leading-tight">
+            <p class="flex justify-between"><span>Chek №:</span> <span id="r-check-no" class="font-bold"></span></p>
+            <p class="flex justify-between"><span>Sana:</span> <span id="r-date" class="font-bold"></span></p>
+            <p class="flex justify-between"><span>Kassir:</span> <span id="r-cashier" class="font-bold"></span></p>
+            <div class="border-b border-dashed border-black my-1"></div>
+            <p class="flex justify-between"><span>Bemor:</span> <span id="r-patient" class="font-bold"></span></p>
+            <p class="flex justify-between"><span>Xizmat:</span> <span id="r-service" class="font-bold"></span></p>
+            <div class="border-b border-dashed border-black my-1"></div>
+            <p class="flex justify-between text-xs font-black"><span>JAMI TO'LOV:</span> <span id="r-amount"></span> UZS</p>
+            <p class="flex justify-between text-[9px]"><span>To'lov turi:</span> <span>NAQD / KARTA</span></p>
+            <p class="flex justify-between text-[9px]"><span>Holat:</span> <span>MUVAFFAQIYATLI</span></p>
         </div>
-        <div class="text-center mt-5 space-y-2.5 no-print">
-            <hr class="border-dashed border-slate-300">
-            <p class="text-[10px] text-slate-400">Sog'ligingiz — bizning oliy maqsadimiz!</p>
-            <button onclick="closeReceipt()" class="bg-slate-800 hover:bg-slate-900 text-white py-2 px-3 rounded-xl text-xs font-semibold w-full transition">Orqaga qaytish</button>
+        
+        <!-- Barcode / Paynet style simulation -->
+        <div class="text-center mt-3 pt-2 border-t border-dashed border-black space-y-1">
+            <div class="text-[16px] font-black tracking-widest font-mono">||| | |||| | |||||| || |</div>
+            <p class="text-[8px] uppercase tracking-wider">Sog'ligingiz — oliy maqsadimiz!</p>
+            <p class="text-[7px] text-gray-400">Rahmat! Omon bo'ling!</p>
+            
+            <button onclick="closeReceipt()" class="bg-black text-white py-1 px-3 rounded text-xs font-sans w-full transition mt-3 no-print">Orqaga qaytish</button>
         </div>
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v11')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v12')) || {
             users: [
                 { name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin" }
             ],
@@ -298,7 +322,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v11', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v12', JSON.stringify(db));
         }
 
         function openAuthModal(tab) {
@@ -782,6 +806,7 @@
             });
         }
 
+        // PAYNET / TERMINAL STYLE RECEIPT GENERATION
         function printReceipt() {
             const p = document.getElementById('b-patient').value.trim();
             const s = document.getElementById('b-service').value.trim();
@@ -795,9 +820,11 @@
             document.getElementById('r-patient').innerText = p;
             document.getElementById('r-service').innerText = s;
             document.getElementById('r-amount').innerText = Number(a).toLocaleString('ru-RU');
+            document.getElementById('r-check-no').innerText = Math.floor(100000 + Math.random() * 900000);
+            document.getElementById('r-cashier').innerText = db.currentUser ? db.currentUser.name : "Kassir #1";
             
             const now = new Date();
-            document.getElementById('r-date').innerText = now.toLocaleDateString('uz-UZ') + ', ' + now.toLocaleTimeString('uz-UZ');
+            document.getElementById('r-date').innerText = now.toLocaleDateString('uz-UZ') + ', ' + now.toLocaleTimeString('uz-UZ', {hour: '2-digit', minute:'2-digit'});
 
             document.getElementById('print-area').classList.remove('hidden');
             
