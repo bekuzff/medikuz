@@ -35,7 +35,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-lg font-extrabold tracking-tight text-white">SHIFO CLINIC</h1>
-                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ENTERPRISE v10.0</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ENTERPRISE v11.0</span>
                     </div>
                     <p class="text-xs text-slate-400 font-medium">Tibbiyot Markazi va Boshqaruv Platformasi</p>
                 </div>
@@ -63,7 +63,6 @@
 
         <!-- ==================== 1. OCHIQ SAYT BO'LIMI (TASHRIF BUYURUVCHILAR UCHUN) ==================== -->
         <div id="public-view" class="space-y-8">
-            <!-- Public Navigation Tabs -->
             <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex overflow-x-auto justify-center gap-2">
                 <button onclick="switchPublicTab('public-services')" id="pubtab-services" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 flex items-center gap-2 transition">
                     <i class="fa-solid fa-list-check"></i><span>Xizmatlar va Narxlar</span>
@@ -76,7 +75,6 @@
                 </button>
             </div>
 
-            <!-- Public Content 1: Xizmatlar va Narxlar -->
             <div id="pubcontent-services" class="space-y-6">
                 <div class="text-center space-y-2 max-w-xl mx-auto">
                     <h2 class="text-2xl font-black text-white">Klinikamiz Xizmatlari va Narxnomasi</h2>
@@ -85,7 +83,6 @@
                 <div id="pub-services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- Public Content 2: Shifokorlar -->
             <div id="pubcontent-doctors" class="hidden space-y-6">
                 <div class="text-center space-y-2 max-w-xl mx-auto">
                     <h2 class="text-2xl font-black text-white">Bizning Shifokorlarimiz</h2>
@@ -94,7 +91,6 @@
                 <div id="pub-doctors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
             </div>
 
-            <!-- Public Content 3: Xonalar va Diagnostika Holati -->
             <div id="pubcontent-rooms" class="hidden space-y-6">
                 <div class="text-center space-y-2 max-w-xl mx-auto">
                     <h2 class="text-2xl font-black text-white">Xonalar va Xizmat Bo'limlari</h2>
@@ -106,7 +102,6 @@
 
         <!-- ==================== 2. TIZIMGA KIRGAN XODIMLAR / ADMIN PANELI ==================== -->
         <div id="private-view" class="hidden space-y-8">
-            <!-- Private Navigation Tabs -->
             <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
                 <div id="tabs-container" class="flex space-x-2 overflow-x-auto items-center py-1">
                     <button onclick="switchTab('patients')" id="tab-patients" class="perm-add-patient flex items-center space-x-2 px-5 py-2.5 text-xs font-bold rounded-xl text-slate-950 bg-emerald-400 transition whitespace-nowrap shadow-md shadow-emerald-500/20">
@@ -173,7 +168,7 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Xizmatlar Boshqaruvi -->
+            <!-- Tab 2: Xizmatlar -->
             <div id="content-services" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -198,7 +193,7 @@
                 </div>
             </div>
 
-            <!-- Tab 3: Xonalar va Bo'limlar Boshqaruvi -->
+            <!-- Tab 3: Xonalar -->
             <div id="content-rooms-manage" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -227,11 +222,11 @@
                 </div>
             </div>
 
-            <!-- Tab 4: Xodimlarni Boshqarish (Doktor, Kassir, Reception, Admin) -->
+            <!-- Tab 4: Xodimlar -->
             <div id="content-staff" class="hidden space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-                        <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i> Yangi Xodim (Doktor/Kassir/Reception) Qo'shish</h3>
+                        <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i> Yangi Xodim Qo'shish</h3>
                         <div class="space-y-3">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">F.I.O</label>
@@ -302,7 +297,7 @@
                 </div>
             </div>
 
-            <!-- Tab 5: Chek va Printer Sozlamasi -->
+            <!-- Tab 5: Chek Sozlamalari -->
             <div id="content-receipt-cfg" class="hidden space-y-6">
                 <div class="glass-panel p-8 rounded-3xl border border-slate-800 max-w-xl mx-auto space-y-4">
                     <h3 class="text-lg font-bold text-white text-center"><i class="fa-solid fa-sliders text-teal-400 mr-2"></i> Chek va Printer Sozlamasi</h3>
@@ -340,15 +335,31 @@
         </div>
     </main>
 
-    <!-- To'lov Modal Oynasi (Kassir uchun) -->
+    <!-- YANGILANGAN TO'LOV MODAL OYNASI (DOKTOR TANLASH VA KELISH SABABI BURI ILAN) -->
     <div id="payment-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-panel max-w-lg w-full p-6 rounded-3xl space-y-4 border border-slate-800">
             <div class="flex justify-between items-center">
                 <h3 class="text-sm font-bold text-white">Bemor To'lovi: <span id="pay-patient-name" class="text-emerald-400"></span></h3>
                 <button onclick="closePayModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
+            
+            <!-- Kelish sababi va Doktor tanlash -->
+            <div class="p-3 bg-slate-900 border border-slate-700/80 rounded-xl space-y-2">
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 mb-1">Kelish sababi / Shikoyati:</label>
+                    <p id="pay-patient-reason" class="text-xs text-slate-200 font-medium italic"></p>
+                </div>
+                <div>
+                    <label class="block text-[11px] font-bold text-slate-400 mb-1">Biriktiriladigan Doktor / Shifokor:</label>
+                    <select id="pay-doctor-select" class="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-xs text-emerald-400 font-bold focus:outline-none">
+                        <!-- Javascript orqali doktorlar yuklanadi -->
+                    </select>
+                </div>
+            </div>
+
             <p class="text-xs text-slate-400">Kerakli xizmatlarni belgilang:</p>
-            <div id="pay-services-list" class="space-y-2 max-h-56 overflow-y-auto"></div>
+            <div id="pay-services-list" class="space-y-2 max-h-48 overflow-y-auto"></div>
+            
             <div class="pt-3 border-t border-slate-800 flex justify-between items-center">
                 <span class="text-xs font-bold text-slate-300">Jami summasi:</span>
                 <span id="pay-total-amount" class="text-base font-extrabold text-emerald-400">0 UZS</span>
@@ -357,7 +368,7 @@
         </div>
     </div>
 
-    <!-- Auth Modal (Tizimga Kirish) -->
+    <!-- Auth Modal -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-panel max-w-md w-full p-6 rounded-3xl space-y-4 border border-slate-800 relative">
             <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
@@ -370,7 +381,7 @@
         </div>
     </div>
 
-    <!-- PRINT AREA -->
+    <!-- PRINT AREA (DOKTOR VA SABABI BILAN) -->
     <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-6 shadow-2xl border text-black">
         <div class="text-center space-y-1">
             <h2 id="pr-title" class="text-xl font-black uppercase">SHIFO CLINIC</h2>
@@ -381,7 +392,9 @@
         <div class="space-y-1.5 text-xs">
             <p class="flex justify-between"><span>Sana:</span> <span id="r-date" class="font-bold"></span></p>
             <p class="flex justify-between"><span>Kassir:</span> <span id="r-cashier" class="font-bold"></span></p>
+            <p class="flex justify-between"><span>Doktor:</span> <span id="r-doctor" class="font-bold"></span></p>
             <p class="flex justify-between"><span>Bemor F.I.O:</span> <span id="r-patient" class="font-bold"></span></p>
+            <p class="flex justify-between"><span>Kelish Sababi:</span> <span id="r-reason" class="font-bold"></span></p>
             <div class="border-b border-dashed border-black my-2"></div>
             <div id="r-services-items" class="space-y-1"></div>
             <div class="border-b border-dashed border-black my-2"></div>
@@ -394,11 +407,12 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v100')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v110')) || {
             users: [
                 { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin", perms: { addPatient: true, processPay: true, manageServices: true, manageReceipt: true } },
                 { id: 2, name: "Kassir Nodira", email: "kassir@shifo.uz", pass: "123456", role: "cashier", perms: { addPatient: true, processPay: true, manageServices: false, manageReceipt: false } },
-                { id: 3, name: "Dr. Alisher Karimov", email: "alisher@shifo.uz", pass: "123456", role: "doctor", perms: { addPatient: true, processPay: false, manageServices: false, manageReceipt: false } }
+                { id: 3, name: "Dr. Alisher Karimov", email: "alisher@shifo.uz", pass: "123456", role: "doctor", perms: { addPatient: true, processPay: false, manageServices: false, manageReceipt: false } },
+                { id: 4, name: "Dr. Malika Umarova", email: "malika@shifo.uz", pass: "123456", role: "doctor", perms: { addPatient: true, processPay: false, manageServices: false, manageReceipt: false } }
             ],
             currentUser: null,
             patients: [],
@@ -424,7 +438,7 @@
         let selectedPatientForPay = null;
         let selectedServices = [];
 
-        function saveDB() { localStorage.setItem('shifo_db_v100', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('shifo_db_v110', JSON.stringify(db)); }
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -581,7 +595,7 @@
                     <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
                         <td class="p-3 font-bold text-white">${p.name}</td>
                         <td class="p-3 text-slate-300">${p.phone}</td>
-                        <td class="p-3 text-slate-400">${p.reason || '-'}</td>
+                        <td class="p-3 text-slate-400">${p.reason || 'Ko\'rik'}</td>
                         <td class="p-3 text-slate-500">${p.date}</td>
                         <td class="p-3">
                             ${canPay ? `<button onclick="openPayModal(${p.id})" class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 rounded-lg font-bold hover:bg-emerald-500 hover:text-slate-950 transition"><i class="fa-solid fa-credit-card mr-1"></i> To'lov Oynasi</button>` : '<span class="text-slate-600">Ruxsat yo\'q</span>'}
@@ -660,11 +674,22 @@
             renderManageRooms();
         }
 
+        /* YANGILANGAN TO'LOV OYNASI VA DOKTORLARNILUKLASH */
         function openPayModal(patientId) {
             selectedPatientForPay = db.patients.find(p => p.id === patientId);
             if (!selectedPatientForPay) return;
 
             document.getElementById('pay-patient-name').innerText = selectedPatientForPay.name;
+            document.getElementById('pay-patient-reason').innerText = selectedPatientForPay.reason || "Shifokor ko'rigi va tahlillar";
+            
+            // Doktorlar dropdownini to'ldirish
+            const docSelect = document.getElementById('pay-doctor-select');
+            docSelect.innerHTML = '';
+            const doctors = db.users.filter(u => u.role === 'doctor' || u.role === 'admin');
+            doctors.forEach(d => {
+                docSelect.innerHTML += `<option value="${d.name}">${d.name} (${d.role.toUpperCase()})</option>`;
+            });
+
             selectedServices = [];
             
             const list = document.getElementById('pay-services-list');
@@ -706,6 +731,7 @@
 
             const total = selectedServices.reduce((sum, item) => sum + item.price, 0);
             const cfg = db.receiptConfig || {};
+            const docName = document.getElementById('pay-doctor-select').value;
 
             document.getElementById('pr-title').innerText = cfg.title || "SHIFO CLINIC";
             document.getElementById('pr-subtitle').innerText = cfg.subtitle || "Tibbiyot Markazi Cheki";
@@ -713,6 +739,8 @@
             document.getElementById('pr-footer').innerText = cfg.footer || "Sog'ligingiz — oliy maqsadimiz!";
 
             document.getElementById('r-patient').innerText = selectedPatientForPay.name;
+            document.getElementById('r-reason').innerText = selectedPatientForPay.reason || "Ko'rik";
+            document.getElementById('r-doctor').innerText = docName;
             document.getElementById('r-cashier').innerText = db.currentUser ? db.currentUser.name : "Kassir";
             document.getElementById('r-date').innerText = new Date().toLocaleDateString('uz-UZ') + ', ' + new Date().toLocaleTimeString('uz-UZ', {hour: '2-digit', minute:'2-digit'});
             document.getElementById('r-amount').innerText = total.toLocaleString();
