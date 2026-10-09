@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifo Clinic - Ultimate Enterprise SaaS</title>
+    <title>Shifo Clinic - Full Control SaaS</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -11,22 +11,18 @@
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; }
         .glass-panel { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.06); }
-        .glass-card:hover { border-color: rgba(16, 185, 129, 0.3); box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2); }
         
-        /* Dynamic Printing Styles */
         @media print {
             body * { visibility: hidden !important; }
             #print-area, #print-area * { visibility: visible !important; }
             #print-area { position: absolute !important; left: 0 !important; top: 0 !important; margin: 0 auto !important; background: #fff !important; color: #000 !important; }
             
-            /* 80mm Termal Mode */
             body.print-mode-80mm #print-area {
                 width: 78mm !important;
                 padding: 10px !important;
                 font-family: 'Space Mono', monospace !important;
             }
 
-            /* A4/A5 Document Mode */
             body.print-mode-a4 #print-area {
                 width: 100% !important;
                 padding: 40px !important;
@@ -37,9 +33,9 @@
         }
     </style>
 </head>
-<body class="text-slate-100 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white print-mode-80mm" id="app-body">
+<body class="text-slate-100 antialiased min-h-screen flex flex-col print-mode-80mm" id="app-body">
 
-    <!-- Header -->
+    <!-- Header / Navbar -->
     <header class="glass-panel sticky top-0 z-40 no-print border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-3">
@@ -49,9 +45,9 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-lg font-extrabold tracking-tight text-white">SHIFO CLINIC</h1>
-                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ULTIMATE v8.0</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">PRO v9.0</span>
                     </div>
-                    <p class="text-xs text-slate-400 font-medium">Klinika, Kassa va Huquqlar Boshqaruvi</p>
+                    <p class="text-xs text-slate-400 font-medium">Boshqaruv, Kassa va Huquqlar Tizimi</p>
                 </div>
             </div>
             
@@ -95,7 +91,6 @@
         <!-- 1. Bemorlar va Qabul -->
         <div id="content-patients" class="space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Bemor Qo'shish -->
                 <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-user-plus text-emerald-400"></i> Yangi Bemor Qo'shish
@@ -117,7 +112,6 @@
                     </div>
                 </div>
 
-                <!-- Bemorlar Ro'yxati -->
                 <div class="lg:col-span-2 glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
                     <h3 class="text-base font-bold text-white flex items-center gap-2">
                         <i class="fa-solid fa-users text-emerald-400"></i> Bugungi Bemorlar Ro'yxati
@@ -165,10 +159,9 @@
             </div>
         </div>
 
-        <!-- 3. Xodimlar va Huquqlar (ADMIN PANELI) -->
+        <!-- 3. Xodimlar va Huquqlar (Admin) -->
         <div id="content-staff" class="hidden space-y-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Yangi Kassir / Receptionist yaratish va Ruxsatlar berish -->
                 <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
                     <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i> Xodim Yaratish & Huquqlar Boshqaruvi</h3>
                     <div class="space-y-3">
@@ -195,7 +188,7 @@
                             </select>
                         </div>
 
-                        <!-- PERMISSION MATRIX (RUXSAT BAYROQCHALARI) -->
+                        <!-- PERMISSION CHECKBOXES -->
                         <div class="p-3.5 bg-slate-900/90 border border-slate-700/80 rounded-xl space-y-2">
                             <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Ushbu Xodimga Beriladigan Huquqlar:</label>
                             <div class="space-y-1.5 text-xs text-slate-200">
@@ -332,7 +325,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v80')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v90')) || {
             users: [
                 {
                     id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin",
@@ -362,7 +355,7 @@
         let selectedPatientForPay = null;
         let selectedServices = [];
 
-        function saveDB() { localStorage.setItem('shifo_db_v80', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('shifo_db_v90', JSON.stringify(db)); }
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -395,7 +388,7 @@
                 document.getElementById('user-info').classList.add('hidden');
             }
 
-            // PERMISSION-BASED UI TOGGLE
+            // PERMISSION TOGGLE
             document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('hidden', !isAdmin));
             document.querySelectorAll('.perm-add-patient').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.addPatient)));
             document.querySelectorAll('.perm-manage-services').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageServices)));
