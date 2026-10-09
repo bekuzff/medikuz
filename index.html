@@ -3,62 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifo Clinic - Full Control SaaS</title>
+    <title>Shifo Clinic - Tibbiyot va Boshqaruv Markazi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0f172a; }
-        .glass-panel { background: rgba(30, 41, 59, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #0b1329; color: #f1f5f9; }
+        .glass-panel { background: rgba(23, 32, 54, 0.85); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .glass-card { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.06); }
+        .glass-card:hover { border-color: rgba(16, 185, 129, 0.4); box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2); }
         
         @media print {
             body * { visibility: hidden !important; }
             #print-area, #print-area * { visibility: visible !important; }
             #print-area { position: absolute !important; left: 0 !important; top: 0 !important; margin: 0 auto !important; background: #fff !important; color: #000 !important; }
-            
-            body.print-mode-80mm #print-area {
-                width: 78mm !important;
-                padding: 10px !important;
-                font-family: 'Space Mono', monospace !important;
-            }
-
-            body.print-mode-a4 #print-area {
-                width: 100% !important;
-                padding: 40px !important;
-                font-family: 'Plus Jakarta Sans', sans-serif !important;
-            }
-
+            body.print-mode-80mm #print-area { width: 78mm !important; padding: 10px !important; font-family: 'Space Mono', monospace !important; }
+            body.print-mode-a4 #print-area { width: 100% !important; padding: 40px !important; font-family: 'Plus Jakarta Sans', sans-serif !important; }
             .no-print { display: none !important; }
         }
     </style>
 </head>
-<body class="text-slate-100 antialiased min-h-screen flex flex-col print-mode-80mm" id="app-body">
+<body class="antialiased min-h-screen flex flex-col print-mode-80mm" id="app-body">
 
     <!-- Header / Navbar -->
     <header class="glass-panel sticky top-0 z-40 no-print border-b border-slate-800">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchPublicTab('public-services')">
                 <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-emerald-500/20">
                     <i class="fa-solid fa-hospital-user"></i>
                 </div>
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-lg font-extrabold tracking-tight text-white">SHIFO CLINIC</h1>
-                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">PRO v9.0</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">ENTERPRISE v10.0</span>
                     </div>
-                    <p class="text-xs text-slate-400 font-medium">Boshqaruv, Kassa va Huquqlar Tizimi</p>
+                    <p class="text-xs text-slate-400 font-medium">Tibbiyot Markazi va Boshqaruv Platformasi</p>
                 </div>
             </div>
             
             <div id="auth-buttons">
-                <button onclick="openAuthModal()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold px-5 py-2 rounded-xl text-xs shadow-lg shadow-emerald-500/20 flex items-center space-x-2">
-                    <i class="fa-solid fa-right-to-bracket"></i><span>Tizimga Kirish</span>
+                <button onclick="openAuthModal()" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 flex items-center space-x-2">
+                    <i class="fa-solid fa-right-to-bracket"></i><span>Tizimga Kirish (Xodimlar uchun)</span>
                 </button>
             </div>
 
             <div id="user-info" class="hidden flex items-center space-x-3">
-                <div class="bg-slate-800/80 border border-slate-700/80 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5">
+                <div class="bg-slate-800/90 border border-slate-700/80 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span id="role-badge"></span>
                 </div>
@@ -70,215 +60,294 @@
     </header>
 
     <main class="max-w-7xl w-full mx-auto px-6 py-8 space-y-8 flex-1 no-print">
-        <!-- Navigation Menu -->
-        <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
-            <div id="tabs-container" class="flex space-x-2 overflow-x-auto items-center py-1">
-                <button onclick="switchTab('patients')" id="tab-patients" class="perm-add-patient flex items-center space-x-2 px-5 py-2.5 text-xs font-bold rounded-xl text-slate-950 bg-emerald-400 transition whitespace-nowrap shadow-md shadow-emerald-500/20">
-                    <i class="fa-solid fa-id-card"></i><span>Bemorlar va Qabul</span>
+
+        <!-- ==================== 1. OCHIQ SAYT BO'LIMI (TASHRIF BUYURUVCHILAR UCHUN) ==================== -->
+        <div id="public-view" class="space-y-8">
+            <!-- Public Navigation Tabs -->
+            <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex overflow-x-auto justify-center gap-2">
+                <button onclick="switchPublicTab('public-services')" id="pubtab-services" class="px-6 py-2.5 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 flex items-center gap-2 transition">
+                    <i class="fa-solid fa-list-check"></i><span>Xizmatlar va Narxlar</span>
                 </button>
-                <button onclick="switchTab('services')" id="tab-services" class="perm-manage-services hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
-                    <i class="fa-solid fa-list-check"></i><span>Xizmatlar & UZI Katalogi</span>
+                <button onclick="switchPublicTab('public-doctors')" id="pubtab-doctors" class="px-6 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fa-solid fa-user-doctor"></i><span>Shifokorlarimiz</span>
                 </button>
-                <button onclick="switchTab('staff')" id="tab-staff" class="admin-only hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
-                    <i class="fa-solid fa-users-gear"></i><span>Xodimlar va Huquqlar</span>
+                <button onclick="switchPublicTab('public-rooms')" id="pubtab-rooms" class="px-6 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition">
+                    <i class="fa-solid fa-door-open"></i><span>Xonalar va Diagnostika Holati</span>
                 </button>
-                <button onclick="switchTab('receipt-cfg')" id="tab-receipt-cfg" class="perm-manage-receipt hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
-                    <i class="fa-solid fa-sliders"></i><span>Chek va Printer Sozlamasi</span>
-                </button>
+            </div>
+
+            <!-- Public Content 1: Xizmatlar va Narxlar -->
+            <div id="pubcontent-services" class="space-y-6">
+                <div class="text-center space-y-2 max-w-xl mx-auto">
+                    <h2 class="text-2xl font-black text-white">Klinikamiz Xizmatlari va Narxnomasi</h2>
+                    <p class="text-xs text-slate-400">Zamonaviy diagnostika, UZI va tahlil xizmatlarining shaffof narxlari</p>
+                </div>
+                <div id="pub-services-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- Public Content 2: Shifokorlar -->
+            <div id="pubcontent-doctors" class="hidden space-y-6">
+                <div class="text-center space-y-2 max-w-xl mx-auto">
+                    <h2 class="text-2xl font-black text-white">Bizning Shifokorlarimiz</h2>
+                    <p class="text-xs text-slate-400">O'z sohasining yetakchi va tajribali mutaxassislari</p>
+                </div>
+                <div id="pub-doctors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </div>
+
+            <!-- Public Content 3: Xonalar va Diagnostika Holati -->
+            <div id="pubcontent-rooms" class="hidden space-y-6">
+                <div class="text-center space-y-2 max-w-xl mx-auto">
+                    <h2 class="text-2xl font-black text-white">Xonalar va Xizmat Bo'limlari</h2>
+                    <p class="text-xs text-slate-400">Real vaqtdagi xonalarning bandlik holati</p>
+                </div>
+                <div id="pub-rooms-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
             </div>
         </div>
 
-        <!-- 1. Bemorlar va Qabul -->
-        <div id="content-patients" class="space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
-                    <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-user-plus text-emerald-400"></i> Yangi Bemor Qo'shish
-                    </h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Bemor F.I.O</label>
-                            <input type="text" id="p-name" placeholder="Ism Familiya" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon raqam</label>
-                            <input type="text" id="p-phone" placeholder="+998 90 123 45 67" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Kelish sababi / Shikoyat</label>
-                            <textarea id="p-reason" rows="2" placeholder="UZI ko'rigi, EKG..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"></textarea>
-                        </div>
-                        <button onclick="registerPatient()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20">Ro'yxatga Olish</button>
-                    </div>
-                </div>
-
-                <div class="lg:col-span-2 glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-base font-bold text-white flex items-center gap-2">
-                        <i class="fa-solid fa-users text-emerald-400"></i> Bugungi Bemorlar Ro'yxati
-                    </h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs border-collapse">
-                            <thead>
-                                <tr class="border-b border-slate-800 text-slate-400 font-semibold bg-slate-900/40">
-                                    <th class="p-3">Bemor F.I.O</th>
-                                    <th class="p-3">Telefon</th>
-                                    <th class="p-3">Sababi</th>
-                                    <th class="p-3">Vaqti</th>
-                                    <th class="p-3">Amal</th>
-                                </tr>
-                            </thead>
-                            <tbody id="patients-table"></tbody>
-                        </table>
-                    </div>
+        <!-- ==================== 2. TIZIMGA KIRGAN XODIMLAR / ADMIN PANELI ==================== -->
+        <div id="private-view" class="hidden space-y-8">
+            <!-- Private Navigation Tabs -->
+            <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
+                <div id="tabs-container" class="flex space-x-2 overflow-x-auto items-center py-1">
+                    <button onclick="switchTab('patients')" id="tab-patients" class="perm-add-patient flex items-center space-x-2 px-5 py-2.5 text-xs font-bold rounded-xl text-slate-950 bg-emerald-400 transition whitespace-nowrap shadow-md shadow-emerald-500/20">
+                        <i class="fa-solid fa-id-card"></i><span>Bemorlar va Qabul</span>
+                    </button>
+                    <button onclick="switchTab('services')" id="tab-services" class="perm-manage-services hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
+                        <i class="fa-solid fa-list-check"></i><span>Xizmatlar Sozlamasi</span>
+                    </button>
+                    <button onclick="switchTab('rooms-manage')" id="tab-rooms-manage" class="admin-only hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
+                        <i class="fa-solid fa-door-closed"></i><span>Xonalar Boshqaruvi</span>
+                    </button>
+                    <button onclick="switchTab('staff')" id="tab-staff" class="admin-only hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
+                        <i class="fa-solid fa-users-gear"></i><span>Xodimlarni Boshqarish</span>
+                    </button>
+                    <button onclick="switchTab('receipt-cfg')" id="tab-receipt-cfg" class="perm-manage-receipt hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
+                        <i class="fa-solid fa-sliders"></i><span>Chek va Printer Sozlamasi</span>
+                    </button>
                 </div>
             </div>
-        </div>
 
-        <!-- 2. Xizmatlar & UZI Katalogi -->
-        <div id="content-services" class="hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-plus text-emerald-400 mr-2"></i> Yangi Xizmat / UZI Qo'shish</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Xizmat nomi</label>
-                            <input type="text" id="srv-name" placeholder="Masalan: Jigar UZI" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Narxi (so'mda)</label>
-                            <input type="number" id="srv-price" placeholder="120000" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
-                        </div>
-                        <button onclick="addService()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Xizmatni Saqlash</button>
-                    </div>
-                </div>
-
-                <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-base font-bold text-white">Mavjud Xizmatlar Katalogi</h3>
-                    <div id="services-list" class="space-y-2.5 max-h-80 overflow-y-auto"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 3. Xodimlar va Huquqlar (Admin) -->
-        <div id="content-staff" class="hidden space-y-6">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i> Xodim Yaratish & Huquqlar Boshqaruvi</h3>
-                    <div class="space-y-3">
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">F.I.O</label>
-                            <input type="text" id="st-name" placeholder="Sardor Rahimov" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
+            <!-- Tab 1: Bemorlar va Qabul -->
+            <div id="content-patients" class="space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4 shadow-xl">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus text-emerald-400"></i> Yangi Bemor Qo'shish
+                        </h3>
+                        <div class="space-y-3">
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">Login (Email)</label>
-                                <input type="email" id="st-email" placeholder="kassir@shifo.uz" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Bemor F.I.O</label>
+                                <input type="text" id="p-name" placeholder="Ism Familiya" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
                             </div>
                             <div>
-                                <label class="block text-xs font-semibold text-slate-300 mb-1">Parol</label>
-                                <input type="password" id="st-pass" placeholder="••••••••" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon raqam</label>
+                                <input type="text" id="p-phone" placeholder="+998 90 123 45 67" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
                             </div>
-                        </div>
-                        <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">Lavozim</label>
-                            <select id="st-role" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
-                                <option value="cashier">Kassir</option>
-                                <option value="reception">Receptionist</option>
-                                <option value="admin">Admin (To'liq Ruxsat)</option>
-                            </select>
-                        </div>
-
-                        <!-- PERMISSION CHECKBOXES -->
-                        <div class="p-3.5 bg-slate-900/90 border border-slate-700/80 rounded-xl space-y-2">
-                            <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Ushbu Xodimga Beriladigan Huquqlar:</label>
-                            <div class="space-y-1.5 text-xs text-slate-200">
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" id="perm-add-patient" checked class="accent-emerald-500 rounded">
-                                    <span>Bemor qo'shish va ro'yxatni ko'rish</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" id="perm-process-pay" checked class="accent-emerald-500 rounded">
-                                    <span>To'lov qabul qilish va Chek chiqarish</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" id="perm-manage-services" class="accent-emerald-500 rounded">
-                                    <span>Xizmatlar va Narxlarni boshqarish</span>
-                                </label>
-                                <label class="flex items-center space-x-2 cursor-pointer">
-                                    <input type="checkbox" id="perm-manage-receipt" class="accent-emerald-500 rounded">
-                                    <span>Chek va Printer sozlamalarini o'zgartirish</span>
-                                </label>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Kelish sababi / Shikoyat</label>
+                                <textarea id="p-reason" rows="2" placeholder="UZI ko'rigi, EKG..." class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500"></textarea>
                             </div>
+                            <button onclick="registerPatient()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold py-3 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20">Ro'yxatga Olish</button>
                         </div>
-
-                        <button onclick="addStaff()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Xodim va Huquqlarni Saqlash</button>
                     </div>
-                </div>
 
-                <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <h3 class="text-base font-bold text-white">Mavjud Xodimlar va Ularning Huquqlari</h3>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left text-xs border-collapse">
-                            <thead>
-                                <tr class="border-b border-slate-800 text-slate-400 font-semibold bg-slate-900/40">
-                                    <th class="p-2.5">Ism</th>
-                                    <th class="p-2.5">Login</th>
-                                    <th class="p-2.5">Rol</th>
-                                    <th class="p-2.5">Amal</th>
-                                </tr>
-                            </thead>
-                            <tbody id="staff-table"></tbody>
-                        </table>
+                    <div class="lg:col-span-2 glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center gap-2">
+                            <i class="fa-solid fa-users text-emerald-400"></i> Bugungi Bemorlar Ro'yxati va Kassa
+                        </h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 font-semibold bg-slate-900/40">
+                                        <th class="p-3">Bemor F.I.O</th>
+                                        <th class="p-3">Telefon</th>
+                                        <th class="p-3">Sababi</th>
+                                        <th class="p-3">Vaqti</th>
+                                        <th class="p-3">Amal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="patients-table"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- 4. Chek & Printer Sozlamalari -->
-        <div id="content-receipt-cfg" class="hidden space-y-6">
-            <div class="glass-panel p-8 rounded-3xl border border-slate-800 max-w-xl mx-auto space-y-4">
-                <h3 class="text-lg font-bold text-white text-center"><i class="fa-solid fa-sliders text-teal-400 mr-2"></i> Chek Dizayni va Printer Formati</h3>
-                
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">Printer Formati / Shabloni</label>
-                    <select id="cfg-printer-type" onchange="changePrinterMode(this.value)" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-emerald-400 font-bold focus:outline-none">
-                        <option value="80mm">POS Termal Printer (80mm Kassa Cheki)</option>
-                        <option value="a4">Oddiy Printer (A4 / A5 Hujjat Format)</option>
-                    </select>
-                </div>
+            <!-- Tab 2: Xizmatlar Boshqaruvi -->
+            <div id="content-services" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-plus text-emerald-400 mr-2"></i> Yangi Xizmat yoki UZI Qo'shish</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Xizmat nomi</label>
+                                <input type="text" id="srv-name" placeholder="Masalan: Jigar UZI" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Narxi (so'mda)</label>
+                                <input type="number" id="srv-price" placeholder="120000" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
+                            </div>
+                            <button onclick="addService()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Xizmatni Saqlash</button>
+                        </div>
+                    </div>
 
-                <div class="border-t border-slate-800 pt-3 space-y-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Klinika Nomi</label>
-                        <input type="text" id="cfg-title" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Chek Sarlavhasi</label>
-                        <input type="text" id="cfg-subtitle" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Terminal / Kassa ID</label>
-                        <input type="text" id="cfg-terminal" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-300 mb-1">Chek Ostidagi Minnatdorchilik yozuvi</label>
-                        <input type="text" id="cfg-footer" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white">Mavjud Xizmatlar Katalogi</h3>
+                        <div id="services-list" class="space-y-2.5 max-h-80 overflow-y-auto"></div>
                     </div>
                 </div>
+            </div>
 
-                <button onclick="saveReceiptConfig()" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-xl text-xs transition">Chek Sozlamalarini Saqlash</button>
+            <!-- Tab 3: Xonalar va Bo'limlar Boshqaruvi -->
+            <div id="content-rooms-manage" class="hidden space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-plus text-emerald-400 mr-2"></i> Yangi Xona / Bo'lim Qo'shish</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Xona nomi va raqami</label>
+                                <input type="text" id="rm-name" placeholder="104-Xona (UZI Bo'limi)" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Xona Holati</label>
+                                <select id="rm-status" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                    <option value="Bo'sh">Bo'sh</option>
+                                    <option value="Band (Qabulda)">Band (Qabulda)</option>
+                                    <option value="Tozalanmoqda">Tozalanmoqda</option>
+                                </select>
+                            </div>
+                            <button onclick="addRoom()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition">Xonani Saqlash</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white">Mavjud Xonalar Boshqaruvi</h3>
+                        <div id="rooms-manage-list" class="space-y-2.5 max-h-80 overflow-y-auto"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Xodimlarni Boshqarish (Doktor, Kassir, Reception, Admin) -->
+            <div id="content-staff" class="hidden space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i> Yangi Xodim (Doktor/Kassir/Reception) Qo'shish</h3>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">F.I.O</label>
+                                <input type="text" id="st-name" placeholder="Dr. Jasur Alimov" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Login (Email)</label>
+                                    <input type="email" id="st-email" placeholder="jasur@shifo.uz" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 mb-1">Parol</label>
+                                    <input type="password" id="st-pass" placeholder="••••••••" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1">Lavozim / Rol</label>
+                                <select id="st-role" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                    <option value="doctor">Doktor (Shifokor)</option>
+                                    <option value="cashier">Kassir</option>
+                                    <option value="reception">Receptionist</option>
+                                    <option value="admin">Admin (To'liq Ruxsat)</option>
+                                </select>
+                            </div>
+
+                            <div class="p-3.5 bg-slate-900/90 border border-slate-700/80 rounded-xl space-y-2">
+                                <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Ruxsat Bayroqchalari (Permissions):</label>
+                                <div class="space-y-1.5 text-xs text-slate-200">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="checkbox" id="perm-add-patient" checked class="accent-emerald-500 rounded">
+                                        <span>Bemor qo'shish va ro'yxatni ko'rish</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="checkbox" id="perm-process-pay" checked class="accent-emerald-500 rounded">
+                                        <span>To'lov qabul qilish va Chek chiqarish</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="checkbox" id="perm-manage-services" class="accent-emerald-500 rounded">
+                                        <span>Xizmatlar va Narxlarni boshqarish</span>
+                                    </label>
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="checkbox" id="perm-manage-receipt" class="accent-emerald-500 rounded">
+                                        <span>Chek va Printer sozlamalarini o'zgartirish</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button onclick="addStaff()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Xodim va Ruxsatlarni Saqlash</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                        <h3 class="text-base font-bold text-white">Klinika Xodimlari va Doktorlar Ro'yxati</h3>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs border-collapse">
+                                <thead>
+                                    <tr class="border-b border-slate-800 text-slate-400 font-semibold bg-slate-900/40">
+                                        <th class="p-2.5">F.I.O</th>
+                                        <th class="p-2.5">Login</th>
+                                        <th class="p-2.5">Rol</th>
+                                        <th class="p-2.5">Amal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="staff-table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 5: Chek va Printer Sozlamasi -->
+            <div id="content-receipt-cfg" class="hidden space-y-6">
+                <div class="glass-panel p-8 rounded-3xl border border-slate-800 max-w-xl mx-auto space-y-4">
+                    <h3 class="text-lg font-bold text-white text-center"><i class="fa-solid fa-sliders text-teal-400 mr-2"></i> Chek va Printer Sozlamasi</h3>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 mb-1">Printer Formati</label>
+                        <select id="cfg-printer-type" onchange="changePrinterMode(this.value)" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-emerald-400 font-bold focus:outline-none">
+                            <option value="80mm">POS Termal Printer (80mm Kassa Cheki)</option>
+                            <option value="a4">Oddiy Printer (A4 / A5 Hujjat Format)</option>
+                        </select>
+                    </div>
+
+                    <div class="border-t border-slate-800 pt-3 space-y-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Klinika Nomi</label>
+                            <input type="text" id="cfg-title" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Chek Sarlavhasi</label>
+                            <input type="text" id="cfg-subtitle" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Terminal ID</label>
+                            <input type="text" id="cfg-terminal" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Chek Ostidagi Minnatdorchilik yozuvi</label>
+                            <input type="text" id="cfg-footer" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <button onclick="saveReceiptConfig()" class="w-full bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold py-3 rounded-xl text-xs transition">Chek Sozlamalarini Saqlash</button>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- To'lov Modal Oynasi (Kassir uchun Xizmat Tanlash) -->
+    <!-- To'lov Modal Oynasi (Kassir uchun) -->
     <div id="payment-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-panel max-w-lg w-full p-6 rounded-3xl space-y-4 border border-slate-800">
             <div class="flex justify-between items-center">
                 <h3 class="text-sm font-bold text-white">Bemor To'lovi: <span id="pay-patient-name" class="text-emerald-400"></span></h3>
                 <button onclick="closePayModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <p class="text-xs text-slate-400">Kerakli xizmatlarni va UZI turlarini belgilang:</p>
+            <p class="text-xs text-slate-400">Kerakli xizmatlarni belgilang:</p>
             <div id="pay-services-list" class="space-y-2 max-h-56 overflow-y-auto"></div>
             <div class="pt-3 border-t border-slate-800 flex justify-between items-center">
                 <span class="text-xs font-bold text-slate-300">Jami summasi:</span>
@@ -288,7 +357,7 @@
         </div>
     </div>
 
-    <!-- Auth Modal -->
+    <!-- Auth Modal (Tizimga Kirish) -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-panel max-w-md w-full p-6 rounded-3xl space-y-4 border border-slate-800 relative">
             <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
@@ -301,7 +370,7 @@
         </div>
     </div>
 
-    <!-- PRINT AREA (Dinamik 80mm yoki A4) -->
+    <!-- PRINT AREA -->
     <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-6 shadow-2xl border text-black">
         <div class="text-center space-y-1">
             <h2 id="pr-title" class="text-xl font-black uppercase">SHIFO CLINIC</h2>
@@ -325,23 +394,23 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v90')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v100')) || {
             users: [
-                {
-                    id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin",
-                    perms: { addPatient: true, processPay: true, manageServices: true, manageReceipt: true }
-                },
-                {
-                    id: 2, name: "Kassir Nodira", email: "kassir@shifo.uz", pass: "123456", role: "cashier",
-                    perms: { addPatient: true, processPay: true, manageServices: false, manageReceipt: false }
-                }
+                { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin", perms: { addPatient: true, processPay: true, manageServices: true, manageReceipt: true } },
+                { id: 2, name: "Kassir Nodira", email: "kassir@shifo.uz", pass: "123456", role: "cashier", perms: { addPatient: true, processPay: true, manageServices: false, manageReceipt: false } },
+                { id: 3, name: "Dr. Alisher Karimov", email: "alisher@shifo.uz", pass: "123456", role: "doctor", perms: { addPatient: true, processPay: false, manageServices: false, manageReceipt: false } }
             ],
             currentUser: null,
             patients: [],
             services: [
-                { id: 1, name: "Qorin bo'shlig'i UZI", price: 120000 },
-                { id: 2, name: "Kardiologiya va EKG", price: 80000 },
-                { id: 3, name: "Umumiy Qon Tahlili", price: 45000 }
+                { id: 1, name: "Qorin bo'shlig'i UZI", price: 120000, desc: "Barcha ichki a'zolarni to'liq diagnostika qilish" },
+                { id: 2, name: "Kardiologiya va EKG", price: 80000, desc: "Yurak urishi va kardiogramma tahlili" },
+                { id: 3, name: "Umumiy Qon Tahlili", price: 45000, desc: "Laboratoriya qon tahlillari" }
+            ],
+            rooms: [
+                { id: 1, name: "101-Xona (Terapiya)", status: "Bo'sh" },
+                { id: 2, name: "102-Xona (Xirurgiya)", status: "Band (Qabulda)" },
+                { id: 3, name: "103-Xona (UZI Bo'limi)", status: "Tozalanmoqda" }
             ],
             receiptConfig: {
                 printerType: "80mm",
@@ -355,7 +424,7 @@
         let selectedPatientForPay = null;
         let selectedServices = [];
 
-        function saveDB() { localStorage.setItem('shifo_db_v90', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('shifo_db_v100', JSON.stringify(db)); }
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -376,32 +445,111 @@
 
         function initApp() {
             const user = db.currentUser;
-            const isAdmin = user && user.role === 'admin';
-            const perms = user ? (user.perms || {}) : {};
+            const publicView = document.getElementById('public-view');
+            const privateView = document.getElementById('private-view');
 
             if (user) {
+                publicView.classList.add('hidden');
+                privateView.classList.remove('hidden');
                 document.getElementById('auth-buttons').classList.add('hidden');
                 document.getElementById('user-info').classList.remove('hidden');
                 document.getElementById('role-badge').innerText = `${user.name} (${user.role.toUpperCase()})`;
+
+                const isAdmin = user.role === 'admin';
+                const perms = user.perms || {};
+
+                document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('hidden', !isAdmin));
+                document.querySelectorAll('.perm-add-patient').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.addPatient)));
+                document.querySelectorAll('.perm-manage-services').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageServices)));
+                document.querySelectorAll('.perm-manage-receipt').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageReceipt)));
+
+                renderPatients();
+                renderServices();
+                renderManageRooms();
+                if (isAdmin) renderStaff();
             } else {
+                publicView.classList.remove('hidden');
+                privateView.classList.add('hidden');
                 document.getElementById('auth-buttons').classList.remove('hidden');
                 document.getElementById('user-info').classList.add('hidden');
+
+                renderPublicServices();
+                renderPublicDoctors();
+                renderPublicRooms();
             }
 
-            // PERMISSION TOGGLE
-            document.querySelectorAll('.admin-only').forEach(el => el.classList.toggle('hidden', !isAdmin));
-            document.querySelectorAll('.perm-add-patient').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.addPatient)));
-            document.querySelectorAll('.perm-manage-services').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageServices)));
-            document.querySelectorAll('.perm-manage-receipt').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageReceipt)));
-
             loadReceiptConfigInputs();
-            renderPatients();
-            renderServices();
-            if (isAdmin) renderStaff();
         }
 
+        /* PUBLIC VIEW RENDERERS */
+        function switchPublicTab(tab) {
+            ['services', 'doctors', 'rooms'].forEach(t => {
+                document.getElementById(`pubcontent-${t}`).classList.add('hidden');
+                document.getElementById(`pubtab-${t}`).className = "px-6 py-2.5 rounded-xl text-xs font-semibold text-slate-400 hover:text-white flex items-center gap-2 transition";
+            });
+            document.getElementById(`pubcontent-${tab.replace('public-', '')}`).classList.remove('hidden');
+            document.getElementById(`pubtab-${tab.replace('public-', '')}`).className = "px-6 py-2.5 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 flex items-center gap-2 transition";
+        }
+
+        function renderPublicServices() {
+            const grid = document.getElementById('pub-services-grid');
+            grid.innerHTML = '';
+            db.services.forEach(s => {
+                grid.innerHTML += `
+                    <div class="glass-card p-6 rounded-3xl space-y-3 border border-slate-800">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-lg">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                        <h3 class="font-extrabold text-base text-white">${s.name}</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">${s.desc || 'Professional tibbiy diagnostika va ko\'rik'}</p>
+                        <div class="pt-2 flex justify-between items-center border-t border-slate-800">
+                            <span class="text-[11px] font-semibold text-slate-400">Xizmat Narxi:</span>
+                            <span class="text-sm font-black text-emerald-400">${s.price.toLocaleString()} UZS</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPublicDoctors() {
+            const grid = document.getElementById('pub-doctors-grid');
+            grid.innerHTML = '';
+            const doctors = db.users.filter(u => u.role === 'doctor' || u.role === 'admin');
+            doctors.forEach(d => {
+                grid.innerHTML += `
+                    <div class="glass-card p-6 rounded-3xl space-y-3 border border-slate-800">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-500/10 text-teal-400 border border-teal-500/20 flex items-center justify-center text-xl font-bold">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-extrabold text-base text-white">${d.name}</h3>
+                            <p class="text-xs text-emerald-400 font-semibold">${d.role.toUpperCase()}</p>
+                        </div>
+                        <p class="text-xs text-slate-400">Bo'lim bo'yicha yetakchi shifokor mutaxassis</p>
+                    </div>
+                `;
+            });
+        }
+
+        function renderPublicRooms() {
+            const grid = document.getElementById('pub-rooms-grid');
+            grid.innerHTML = '';
+            db.rooms.forEach(r => {
+                grid.innerHTML += `
+                    <div class="glass-card p-6 rounded-3xl space-y-3 border border-slate-800">
+                        <div class="flex justify-between items-center">
+                            <h3 class="font-bold text-sm text-white">${r.name}</h3>
+                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold border ${r.status === 'Bo\'sh' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' : 'bg-amber-500/10 text-amber-400 border-amber-500/30'}">${r.status}</span>
+                        </div>
+                        <p class="text-xs text-slate-400">Diagnostika va Qabul Xonasi</p>
+                    </div>
+                `;
+            });
+        }
+
+        /* PRIVATE MANAGEMENT FUNCTIONS */
         function switchTab(tab) {
-            ['patients', 'services', 'staff', 'receipt-cfg'].forEach(t => {
+            ['patients', 'services', 'rooms-manage', 'staff', 'receipt-cfg'].forEach(t => {
                 const el = document.getElementById(`content-${t}`);
                 if(el) el.classList.add('hidden');
             });
@@ -448,7 +596,7 @@
             const price = Number(document.getElementById('srv-price').value);
             if (!name || !price) return;
 
-            db.services.push({ id: Date.now(), name, price });
+            db.services.push({ id: Date.now(), name, price, desc: "Tibbiy diagnostika xizmati" });
             saveDB();
             renderServices();
             document.getElementById('srv-name').value = '';
@@ -476,6 +624,40 @@
             db.services = db.services.filter(s => s.id !== id);
             saveDB();
             renderServices();
+        }
+
+        function addRoom() {
+            const name = document.getElementById('rm-name').value.trim();
+            const status = document.getElementById('rm-status').value;
+            if (!name) return;
+
+            db.rooms.push({ id: Date.now(), name, status });
+            saveDB();
+            renderManageRooms();
+            document.getElementById('rm-name').value = '';
+        }
+
+        function renderManageRooms() {
+            const list = document.getElementById('rooms-manage-list');
+            if (!list) return;
+            list.innerHTML = '';
+            db.rooms.forEach(r => {
+                list.innerHTML += `
+                    <div class="bg-slate-900/80 border border-slate-700/80 p-3.5 rounded-xl flex justify-between items-center text-xs">
+                        <span class="font-bold text-white">${r.name}</span>
+                        <div class="flex items-center space-x-3">
+                            <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.status === 'Bo\'sh' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${r.status}</span>
+                            <button onclick="deleteRoom(${r.id})" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function deleteRoom(id) {
+            db.rooms = db.rooms.filter(r => r.id !== id);
+            saveDB();
+            renderManageRooms();
         }
 
         function openPayModal(patientId) {
@@ -595,7 +777,7 @@
             document.getElementById('st-name').value = '';
             document.getElementById('st-email').value = '';
             document.getElementById('st-pass').value = '';
-            alert("Yangi xodim va uning huquqlari saqlandi!");
+            alert("Yangi xodim saqlandi!");
         }
 
         function deleteStaff(id) {
