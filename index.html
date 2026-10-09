@@ -3,19 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifo Clinic - Premium Tibbiyot Tizimi</title>
+    <title>Shifo Clinic - Ultra Premium Medical Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #0f172a;
         }
 
-        /* Termal printer (Paynet / POS terminal) uchun maxsus CSS stili */
+        /* Gradient Glass Effect */
+        .glass-panel {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.2);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(51, 65, 85, 0.8);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10b981;
+        }
+
+        /* Termal printer (Paynet / POS terminal 80mm) CSS */
         @media print {
             @page {
-                size: 80mm auto; /* Termal printer va Paynet qog'ozi o'lchami */
+                size: 80mm auto;
                 margin: 0;
             }
             html, body {
@@ -23,6 +59,7 @@
                 margin: 0 !important;
                 padding: 0 !important;
                 background: #ffffff !important;
+                color: #000000 !important;
             }
             body * {
                 visibility: hidden !important;
@@ -41,7 +78,7 @@
                 border: none !important;
                 background: #fff !important;
                 color: #000 !important;
-                font-family: 'Space Mono', 'Courier New', Courier, monospace !important;
+                font-family: 'Space Mono', 'Courier New', monospace !important;
             }
             .no-print {
                 display: none !important;
@@ -49,70 +86,71 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+<body class="text-slate-100 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
     <!-- Header / Navbar -->
-    <header class="bg-gradient-to-r from-teal-800 via-teal-700 to-emerald-800 text-white shadow-xl sticky top-0 z-40 no-print border-b border-teal-600/30">
-        <div class="container mx-auto px-6 py-3.5 flex justify-between items-center">
-            <div class="flex items-center space-x-3.5">
-                <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-inner">
-                    <i class="fa-solid fa-hospital-user text-2xl text-teal-200"></i>
+    <header class="glass-panel sticky top-0 z-40 no-print border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-4">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-emerald-500/20">
+                    <i class="fa-solid fa-hospital-user"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-extrabold tracking-wide text-white flex items-center gap-2">
-                        Shifo Clinic <span class="text-[10px] bg-teal-500/30 text-teal-200 border border-teal-400/30 px-2 py-0.5 rounded-full font-semibold">v2.0</span>
-                    </h1>
-                    <p class="text-xs text-teal-200/80 font-medium">Rasmiy Tibbiyot Boshqaruv Markazi</p>
+                    <div class="flex items-center gap-2">
+                        <h1 class="text-lg font-extrabold tracking-tight text-white">SHIFO CLINIC</h1>
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">PRO v3.0</span>
+                    </div>
+                    <p class="text-xs text-slate-400 font-medium">Boshqaruv va Diagnostika Markazi</p>
                 </div>
             </div>
             
             <!-- Kirilmaganda korinadigan tugmalar -->
             <div id="auth-buttons" class="flex items-center space-x-3">
-                <button onclick="openAuthModal('register')" class="bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-xl text-xs font-semibold transition border border-white/20 backdrop-blur-sm flex items-center space-x-2 shadow-sm">
-                    <i class="fa-solid fa-user-plus text-teal-200"></i><span>Ro'yxatdan o'tish</span>
+                <button onclick="openAuthModal('register')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white hover:bg-slate-800 transition border border-slate-700/60 flex items-center space-x-2">
+                    <i class="fa-solid fa-user-plus text-emerald-400"></i><span>Ro'yxatdan o'tish</span>
                 </button>
-                <button onclick="openAuthModal('login')" class="bg-teal-500 hover:bg-teal-400 text-slate-900 font-bold px-4 py-2 rounded-xl text-xs transition flex items-center space-x-2 shadow-md hover:shadow-lg">
+                <button onclick="openAuthModal('login')" class="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold px-5 py-2 rounded-xl text-xs transition shadow-lg shadow-emerald-500/20 flex items-center space-x-2">
                     <i class="fa-solid fa-right-to-bracket"></i><span>Tizimga Kirish</span>
                 </button>
             </div>
 
             <!-- Kirilganda korinadigan user info -->
             <div id="user-info" class="hidden flex items-center space-x-3">
-                <div class="bg-teal-900/60 border border-teal-500/30 text-teal-100 px-3.5 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-2 backdrop-blur-md">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <div class="bg-slate-800/80 border border-slate-700/80 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold flex items-center gap-2.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                     <span id="role-badge"></span>
                 </div>
-                <button onclick="logout()" class="bg-rose-500/20 hover:bg-rose-500 text-rose-200 hover:text-white border border-rose-500/30 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm">
+                <button onclick="logout()" class="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 px-4 py-2 rounded-xl text-xs font-semibold transition flex items-center space-x-2">
                     <i class="fa-solid fa-right-from-bracket"></i><span>Chiqish</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <main class="container mx-auto px-6 py-8 space-y-8 flex-1 no-print">
+    <main class="max-w-7xl w-full mx-auto px-6 py-8 space-y-8 flex-1 no-print">
         <!-- Navigation Menu Tabs -->
-        <div class="bg-white p-2.5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap justify-between items-center gap-3">
+        <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
             <div id="tabs-container" class="flex space-x-2 overflow-x-auto items-center py-1">
-                <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-4 py-2.5 text-xs font-bold rounded-xl text-teal-700 bg-teal-50 transition whitespace-nowrap shadow-sm">
+                <button onclick="switchTab('rooms')" id="tab-rooms" class="flex items-center space-x-2 px-5 py-2.5 text-xs font-bold rounded-xl text-slate-950 bg-emerald-400 transition whitespace-nowrap shadow-md shadow-emerald-500/20">
                     <i class="fa-solid fa-door-open"></i><span>Xonalar</span>
                 </button>
-                <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                <button onclick="switchTab('doctors')" id="tab-doctors" class="flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
                     <i class="fa-solid fa-user-doctor"></i><span>Shifokorlar</span>
                 </button>
                 <!-- Faqat Admin uchun korinadigan tablar -->
-                <button onclick="switchTab('billing')" id="tab-billing" class="admin-only hidden flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                <button onclick="switchTab('billing')" id="tab-billing" class="admin-only hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
                     <i class="fa-solid fa-receipt"></i><span>Kvitansiya & Chek</span>
                 </button>
-                <button onclick="switchTab('staff')" id="tab-staff" class="admin-only hidden flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
+                <button onclick="switchTab('staff')" id="tab-staff" class="admin-only hidden flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
                     <i class="fa-solid fa-users-gear"></i><span>Xodimlar Ro'yxati</span>
                 </button>
                 <!-- Dynamic Custom Tabs Holder -->
                 <div id="custom-tabs-holder" class="flex space-x-2"></div>
             </div>
 
-            <div class="admin-only hidden items-center space-x-2 pl-4 border-l border-slate-200">
-                <input type="text" id="custom-menu-input" placeholder="Yangi bo'lim nomi..." class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                <button onclick="addCustomMenu()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-sm">
+            <div class="admin-only hidden items-center space-x-2 pl-4 border-l border-slate-800">
+                <input type="text" id="custom-menu-input" placeholder="Yangi bo'lim nomi..." class="bg-slate-900/80 border border-slate-700/70 text-slate-200 px-3.5 py-2 rounded-xl text-xs focus:outline-none focus:border-emerald-500 placeholder-slate-500">
+                <button onclick="addCustomMenu()" class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 hover:bg-emerald-500 hover:text-slate-950 px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5">
                     <i class="fa-solid fa-plus"></i><span>Bo'lim qo'shish</span>
                 </button>
             </div>
@@ -123,14 +161,16 @@
 
         <!-- 1. Rooms Tab -->
         <div id="content-rooms" class="space-y-6">
-            <div class="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl border border-slate-800">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800">Klinika Xonalari</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Xonalarning real vaqtdagi bandlik va tozalik holati</p>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-hospital-badge text-emerald-400"></i> Klinika Xonalari
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Xonalarning real vaqtdagi bandlik va tozalik holati</p>
                 </div>
                 <div class="admin-only hidden flex space-x-2">
-                    <input type="text" id="new-room-name" placeholder="Xona nomi (masalan: 104-Xona)" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <button onclick="addRoom()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Xona qo'shish</button>
+                    <input type="text" id="new-room-name" placeholder="Xona nomi (masalan: 104-Xona)" class="bg-slate-900/80 border border-slate-700/70 text-slate-200 px-3.5 py-2 rounded-xl text-xs focus:outline-none focus:border-emerald-500 placeholder-slate-500">
+                    <button onclick="addRoom()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Xona qo'shish</button>
                 </div>
             </div>
             <div id="rooms-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
@@ -138,15 +178,17 @@
 
         <!-- 2. Doctors Tab -->
         <div id="content-doctors" class="hidden space-y-6">
-            <div class="flex justify-between items-center bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 glass-panel p-6 rounded-2xl border border-slate-800">
                 <div>
-                    <h3 class="text-lg font-bold text-slate-800">Shifokorlar Jamoasi</h3>
-                    <p class="text-xs text-slate-500 mt-0.5">Klinikamizdagi malakali mutaxassislar ro'yxati</p>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <i class="fa-solid fa-user-doctor text-emerald-400"></i> Shifokorlar Jamoasi
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Klinikamizdagi malakali mutaxassislar ro'yxati</p>
                 </div>
                 <div class="admin-only hidden flex space-x-2">
-                    <input type="text" id="doc-name" placeholder="Dr. Ism Familiya" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <input type="text" id="doc-spec" placeholder="Mutaxassisligi" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <button onclick="addDoctor()" class="bg-teal-600 hover:bg-teal-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Shifokor qo'shish</button>
+                    <input type="text" id="doc-name" placeholder="Dr. Ism Familiya" class="bg-slate-900/80 border border-slate-700/70 text-slate-200 px-3.5 py-2 rounded-xl text-xs focus:outline-none focus:border-emerald-500 placeholder-slate-500">
+                    <input type="text" id="doc-spec" placeholder="Mutaxassisligi" class="bg-slate-900/80 border border-slate-700/70 text-slate-200 px-3.5 py-2 rounded-xl text-xs focus:outline-none focus:border-emerald-500 placeholder-slate-500">
+                    <button onclick="addDoctor()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-4 py-2 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Shifokor qo'shish</button>
                 </div>
             </div>
             <div id="doctors-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
@@ -154,29 +196,29 @@
 
         <!-- 3. Billing Tab (Faqat Admin) -->
         <div id="content-billing" class="hidden space-y-6">
-            <div class="bg-white p-8 rounded-3xl shadow-md border border-slate-200/80 max-w-lg mx-auto space-y-5">
-                <div class="text-center space-y-1">
-                    <div class="w-12 h-12 bg-teal-50 text-teal-600 rounded-2xl flex items-center justify-center mx-auto text-xl shadow-inner">
+            <div class="glass-panel p-8 rounded-3xl border border-slate-800 max-w-lg mx-auto space-y-6 shadow-2xl">
+                <div class="text-center space-y-2">
+                    <div class="w-14 h-14 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-inner">
                         <i class="fa-solid fa-file-invoice-dollar"></i>
                     </div>
-                    <h3 class="text-xl font-extrabold text-slate-800 pt-1">To'lov va Kvitansiya Cheki</h3>
-                    <p class="text-xs text-slate-500">Bemor xizmati uchun rasmiy chek shakllantirish va chop etish</p>
+                    <h3 class="text-xl font-extrabold text-white pt-1">To'lov va Kvitansiya Cheki</h3>
+                    <p class="text-xs text-slate-400">Bemor xizmati uchun rasmiy terminal chekini shakllantirish</p>
                 </div>
                 <div class="space-y-4 pt-2">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Bemor F.I.O</label>
-                        <input type="text" id="b-patient" placeholder="Jahongir Alimov" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">Bemor F.I.O</label>
+                        <input type="text" id="b-patient" placeholder="Jahongir Alimov" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Xizmat Turi / Tashxis</label>
-                        <input type="text" id="b-service" placeholder="Terapevt ko'rigi va tahlillar" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">Xizmat Turi / Tashxis</label>
+                        <input type="text" id="b-service" placeholder="Terapevt ko'rigi va tahlillar" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Summasi (so'mda)</label>
-                        <input type="number" id="b-amount" placeholder="150000" class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-teal-500">
+                        <label class="block text-xs font-bold text-slate-300 mb-1.5">Summasi (so'mda)</label>
+                        <input type="number" id="b-amount" placeholder="150000" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500">
                     </div>
-                    <button onclick="printReceipt()" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl text-sm font-bold transition shadow-md hover:shadow-lg flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-print"></i><span>Chekni Chop Etish</span>
+                    <button onclick="printReceipt()" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold py-3.5 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20 flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-print"></i><span>Chekni Chop Etish (80mm)</span>
                     </button>
                 </div>
             </div>
@@ -185,30 +227,30 @@
         <!-- 4. Staff Tab (Faqat Admin) -->
         <div id="content-staff" class="hidden space-y-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
-                    <h3 class="text-base font-bold text-slate-800 flex items-center"><i class="fa-solid fa-user-plus text-teal-600 mr-2"></i>Yangi Xodim Qo'shish</h3>
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-user-plus text-emerald-400 mr-2"></i>Yangi Xodim Qo'shish</h3>
                     <div class="space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Xodim F.I.O</label>
-                            <input type="text" id="st-name" placeholder="Ism Familiya" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Xodim F.I.O</label>
+                            <input type="text" id="st-name" placeholder="Ism Familiya" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Email manzil</label>
-                            <input type="email" id="st-email" placeholder="xodim@shifo.uz" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Email manzil</label>
+                            <input type="email" id="st-email" placeholder="xodim@shifo.uz" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-600 mb-1">Parol</label>
-                            <input type="password" id="st-pass" placeholder="••••••••" class="w-full px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Parol</label>
+                            <input type="password" id="st-pass" placeholder="••••••••" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
                         </div>
-                        <button onclick="addStaff()" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-2.5 rounded-xl text-xs font-bold transition shadow-sm">Xodimni Qo'shish</button>
+                        <button onclick="addStaff()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-500/20">Xodimni Qo'shish</button>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
-                    <h3 class="text-base font-bold text-slate-800 flex items-center"><i class="fa-solid fa-users text-teal-600 mr-2"></i>Ro'yxatdan O'tgan Xodimlar</h3>
+                <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                    <h3 class="text-base font-bold text-white flex items-center"><i class="fa-solid fa-users text-emerald-400 mr-2"></i>Ro'yxatdan O'tgan Xodimlar</h3>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left text-xs border-collapse">
                             <thead>
-                                <tr class="border-b border-slate-200 bg-slate-50/80 text-slate-500 font-semibold">
+                                <tr class="border-b border-slate-800 text-slate-400 font-semibold bg-slate-900/40">
                                     <th class="p-3">Ism</th>
                                     <th class="p-3">Email</th>
                                     <th class="p-3">Rol</th>
@@ -224,44 +266,44 @@
     </main>
 
     <!-- Auth Modal (Kirish / Ro'yxatdan o'tish) -->
-    <div id="auth-modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white max-w-md w-full p-8 rounded-3xl shadow-2xl relative border border-slate-100">
-            <button onclick="closeAuthModal()" class="absolute top-5 right-5 w-8 h-8 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full flex items-center justify-center transition">
+    <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full p-8 rounded-3xl shadow-2xl relative border border-slate-800">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 w-8 h-8 bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white rounded-full flex items-center justify-center transition border border-slate-700">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div class="flex border-b border-slate-200 mb-6">
-                <button onclick="switchAuthTab('login')" id="auth-tab-login" class="flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600 text-center transition text-sm">Tizimga Kirish</button>
-                <button onclick="switchAuthTab('register')" id="auth-tab-register" class="flex-1 pb-3 font-bold text-slate-400 text-center transition text-sm">Ro'yxatdan O'tish</button>
+            <div class="flex border-b border-slate-800 mb-6">
+                <button onclick="switchAuthTab('login')" id="auth-tab-login" class="flex-1 pb-3 font-bold text-emerald-400 border-b-2 border-emerald-400 text-center transition text-sm">Tizimga Kirish</button>
+                <button onclick="switchAuthTab('register')" id="auth-tab-register" class="flex-1 pb-3 font-bold text-slate-500 text-center transition text-sm">Ro'yxatdan O'tish</button>
             </div>
 
             <!-- Login Form -->
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Email manzil</label>
-                    <input type="email" id="login-email" required class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="Emailingizni kiriting">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Email manzil</label>
+                    <input type="email" id="login-email" required class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500" placeholder="Emailingizni kiriting">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Parol</label>
-                    <input type="password" id="login-password" required class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="••••••••">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Parol</label>
+                    <input type="password" id="login-password" required class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500" placeholder="••••••••">
                 </div>
-                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl text-sm font-bold transition shadow-md hover:shadow-lg">Kirish</button>
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold py-3.5 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">Kirish</button>
             </form>
 
             <!-- Register Form -->
             <form id="register-form" onsubmit="handleRegister(event)" class="space-y-4 hidden">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">F.I.O (To'liq ism)</label>
-                    <input type="text" id="reg-name" required class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="Alisher Karimov">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">F.I.O (To'liq ism)</label>
+                    <input type="text" id="reg-name" required class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500" placeholder="Alisher Karimov">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Email manzil</label>
-                    <input type="email" id="reg-email" required class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="alisher@shifo.uz">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Email manzil</label>
+                    <input type="email" id="reg-email" required class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500" placeholder="alisher@shifo.uz">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Parol yarating</label>
-                    <input type="password" id="reg-password" required class="w-full px-4 py-2.5 border border-slate-300 rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="••••••••">
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5">Parol yarating</label>
+                    <input type="password" id="reg-password" required class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 placeholder-slate-500" placeholder="••••••••">
                 </div>
-                <button type="submit" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3 rounded-xl text-sm font-bold transition shadow-md hover:shadow-lg">Hisob yaratish</button>
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold py-3.5 rounded-xl text-sm transition shadow-lg shadow-emerald-500/20">Hisob yaratish</button>
             </form>
         </div>
     </div>
@@ -288,7 +330,6 @@
             <p class="flex justify-between text-[9px]"><span>Holat:</span> <span>MUVAFFAQIYATLI</span></p>
         </div>
         
-        <!-- Barcode / Paynet style simulation -->
         <div class="text-center mt-3 pt-2 border-t border-dashed border-black space-y-1">
             <div class="text-[16px] font-black tracking-widest font-mono">||| | |||| | |||||| || |</div>
             <p class="text-[8px] uppercase tracking-wider">Sog'ligingiz — oliy maqsadimiz!</p>
@@ -299,7 +340,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v12')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v13')) || {
             users: [
                 { name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin" }
             ],
@@ -317,7 +358,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v12', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v13', JSON.stringify(db));
         }
 
         function openAuthModal(tab) {
@@ -333,13 +374,13 @@
             if (tab === 'login') {
                 document.getElementById('login-form').classList.remove('hidden');
                 document.getElementById('register-form').classList.add('hidden');
-                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600 text-center transition text-sm";
-                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-slate-400 text-center transition text-sm";
+                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-emerald-400 border-b-2 border-emerald-400 text-center transition text-sm";
+                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-slate-500 text-center transition text-sm";
             } else {
                 document.getElementById('login-form').classList.add('hidden');
                 document.getElementById('register-form').classList.remove('hidden');
-                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-teal-600 border-b-2 border-teal-600 text-center transition text-sm";
-                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-slate-400 text-center transition text-sm";
+                document.getElementById('auth-tab-register').className = "flex-1 pb-3 font-bold text-emerald-400 border-b-2 border-emerald-400 text-center transition text-sm";
+                document.getElementById('auth-tab-login').className = "flex-1 pb-3 font-bold text-slate-500 text-center transition text-sm";
             }
         }
 
@@ -426,20 +467,20 @@
                 const el = document.getElementById(`content-${t}`);
                 const btn = document.getElementById(`tab-${t}`);
                 if(el) el.classList.add('hidden');
-                if(btn) btn.className = "flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 transition whitespace-nowrap";
+                if(btn) btn.className = "flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap";
             });
 
             db.customMenus.forEach(m => {
                 const el = document.getElementById(`content-${m.id}`);
                 const btn = document.getElementById(`tab-${m.id}`);
                 if(el) el.classList.add('hidden');
-                if(btn) btn.className = "flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 transition whitespace-nowrap";
+                if(btn) btn.className = "flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap";
             });
 
             const activeEl = document.getElementById(`content-${tab}`);
             const activeBtn = document.getElementById(`tab-${tab}`);
             if(activeEl) activeEl.classList.remove('hidden');
-            if(activeBtn) activeBtn.className = "flex items-center space-x-2 px-4 py-2.5 text-xs font-bold rounded-xl text-teal-700 bg-teal-50 transition whitespace-nowrap shadow-sm";
+            if(activeBtn) activeBtn.className = "flex items-center space-x-2 px-5 py-2.5 text-xs font-bold rounded-xl text-slate-950 bg-emerald-400 transition whitespace-nowrap shadow-md shadow-emerald-500/20";
         }
 
         function renderRooms() {
@@ -447,22 +488,29 @@
             const isAdmin = db.currentUser && db.currentUser.role === 'admin';
             grid.innerHTML = '';
             db.rooms.forEach(room => {
-                let statusColor = room.status === "Bo'sh" ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : room.status === 'Band' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-amber-50 text-amber-700 border-amber-200';
+                let statusBadge = room.status === "Bo'sh" 
+                    ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30' 
+                    : room.status === 'Band' 
+                    ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' 
+                    : 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+
                 grid.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-4 hover:shadow-md transition">
+                    <div class="glass-card p-6 rounded-2xl space-y-4 transition-all duration-300">
                         <div class="flex justify-between items-center">
-                            <h4 class="font-bold text-sm text-slate-800">${room.name}</h4>
-                            <span class="px-3 py-0.5 rounded-full text-[10px] font-extrabold border ${statusColor}">${room.status}</span>
+                            <h4 class="font-bold text-sm text-white flex items-center gap-2">
+                                <i class="fa-solid fa-door-closed text-slate-500"></i>${room.name}
+                            </h4>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border ${statusBadge}">${room.status}</span>
                         </div>
-                        <div class="flex space-x-1.5 pt-3 border-t border-slate-100">
-                            <button onclick="updateRoomStatus(${room.id}, 'Bo\\'sh')" class="flex-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 py-1.5 rounded-lg text-[11px] font-bold transition">Bo'sh</button>
-                            <button onclick="updateRoomStatus(${room.id}, 'Band')" class="flex-1 bg-rose-50 hover:bg-rose-100 text-rose-700 py-1.5 rounded-lg text-[11px] font-bold transition">Band</button>
-                            <button onclick="updateRoomStatus(${room.id}, 'Tozalanmoqda')" class="flex-1 bg-amber-50 hover:bg-amber-100 text-amber-700 py-1.5 rounded-lg text-[11px] font-bold transition">Tozalash</button>
+                        <div class="flex space-x-2 pt-3 border-t border-slate-800">
+                            <button onclick="updateRoomStatus(${room.id}, 'Bo\\'sh')" class="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 py-2 rounded-xl text-[11px] font-bold transition">Bo'sh</button>
+                            <button onclick="updateRoomStatus(${room.id}, 'Band')" class="flex-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 py-2 rounded-xl text-[11px] font-bold transition">Band</button>
+                            <button onclick="updateRoomStatus(${room.id}, 'Tozalanmoqda')" class="flex-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/20 py-2 rounded-xl text-[11px] font-bold transition">Tozalash</button>
                         </div>
                         ${isAdmin ? `
-                        <div class="flex justify-between items-center pt-2 text-xs border-t border-slate-100">
-                            <button onclick="editRoom(${room.id})" class="text-teal-600 hover:text-teal-800 font-semibold transition"><i class="fa-solid fa-pen mr-1"></i>Tahrirlash</button>
-                            <button onclick="deleteRoom(${room.id})" class="text-rose-500 hover:text-rose-700 font-semibold transition"><i class="fa-solid fa-trash mr-1"></i>O'chirish</button>
+                        <div class="flex justify-between items-center pt-2 text-xs border-t border-slate-800/80">
+                            <button onclick="editRoom(${room.id})" class="text-emerald-400 hover:text-emerald-300 font-semibold transition flex items-center gap-1"><i class="fa-solid fa-pen text-[10px]"></i>Tahrirlash</button>
+                            <button onclick="deleteRoom(${room.id})" class="text-rose-400 hover:text-rose-300 font-semibold transition flex items-center gap-1"><i class="fa-solid fa-trash text-[10px]"></i>O'chirish</button>
                         </div>` : ''}
                     </div>
                 `;
@@ -503,20 +551,20 @@
             grid.innerHTML = '';
             db.doctors.forEach(doc => {
                 grid.innerHTML += `
-                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 space-y-3 hover:shadow-md transition">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 rounded-full bg-teal-50 text-teal-600 flex items-center justify-center font-bold text-sm">
+                    <div class="glass-card p-6 rounded-2xl space-y-4 transition-all duration-300">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg shadow-inner">
                                 <i class="fa-solid fa-user-doctor"></i>
                             </div>
                             <div>
-                                <h4 class="font-bold text-sm text-slate-800">${doc.name}</h4>
-                                <p class="text-xs text-teal-600 font-medium">${doc.spec}</p>
+                                <h4 class="font-bold text-base text-white">${doc.name}</h4>
+                                <p class="text-xs text-emerald-400 font-medium">${doc.spec}</p>
                             </div>
                         </div>
                         ${isAdmin ? `
-                        <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs">
-                            <button onclick="editDoctor(${doc.id})" class="text-teal-600 hover:text-teal-800 font-semibold transition"><i class="fa-solid fa-pen mr-1"></i>Tahrirlash</button>
-                            <button onclick="deleteDoctor(${doc.id})" class="text-rose-500 hover:text-rose-700 font-semibold transition"><i class="fa-solid fa-trash mr-1"></i>O'chirish</button>
+                        <div class="flex justify-between items-center pt-3 border-t border-slate-800 text-xs">
+                            <button onclick="editDoctor(${doc.id})" class="text-emerald-400 hover:text-emerald-300 font-semibold transition flex items-center gap-1"><i class="fa-solid fa-pen text-[10px]"></i>Tahrirlash</button>
+                            <button onclick="deleteDoctor(${doc.id})" class="text-rose-400 hover:text-rose-300 font-semibold transition flex items-center gap-1"><i class="fa-solid fa-trash text-[10px]"></i>O'chirish</button>
                         </div>` : ''}
                     </div>
                 `;
@@ -554,11 +602,11 @@
             tbody.innerHTML = '';
             db.users.forEach(u => {
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50/50 transition">
-                        <td class="p-3 font-bold text-slate-800">${u.name}</td>
-                        <td class="p-3 text-slate-600">${u.email}</td>
-                        <td class="p-3"><span class="px-2 py-0.5 rounded-md text-[10px] font-bold ${u.role === 'admin' ? 'bg-teal-100 text-teal-800' : 'bg-slate-100 text-slate-700'}">${u.role.toUpperCase()}</span></td>
-                        <td class="p-3 text-slate-400">${u.role === 'admin' ? 'Asosiy' : 'Xodim'}</td>
+                    <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
+                        <td class="p-3.5 font-bold text-white">${u.name}</td>
+                        <td class="p-3.5 text-slate-400">${u.email}</td>
+                        <td class="p-3.5"><span class="px-2.5 py-1 rounded-lg text-[10px] font-extrabold ${u.role === 'admin' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : 'bg-slate-800 text-slate-300 border border-slate-700'}">${u.role.toUpperCase()}</span></td>
+                        <td class="p-3.5 text-slate-500">${u.role === 'admin' ? 'Asosiy' : 'Xodim'}</td>
                     </tr>
                 `;
             });
@@ -715,12 +763,12 @@
             db.customMenus.forEach(menu => {
                 tabsHolder.innerHTML += `
                     <div class="flex items-center space-x-1">
-                        <button onclick="switchTab('${menu.id}')" id="tab-${menu.id}" class="flex items-center space-x-2 px-4 py-2.5 text-xs font-semibold rounded-xl text-slate-600 hover:bg-slate-100 transition whitespace-nowrap">
-                            <i class="fa-solid fa-folder text-teal-600"></i><span>${menu.name}</span>
+                        <button onclick="switchTab('${menu.id}')" id="tab-${menu.id}" class="flex items-center space-x-2 px-5 py-2.5 text-xs font-semibold rounded-xl text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 transition whitespace-nowrap">
+                            <i class="fa-solid fa-folder text-emerald-400"></i><span>${menu.name}</span>
                         </button>
                         ${isAdmin ? `
-                            <button onclick="editCustomMenu('${menu.id}')" class="text-slate-400 hover:text-blue-600 text-xs px-1 transition"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="deleteCustomMenu('${menu.id}')" class="text-slate-400 hover:text-rose-600 text-xs px-1 transition"><i class="fa-solid fa-trash"></i></button>
+                            <button onclick="editCustomMenu('${menu.id}')" class="text-slate-500 hover:text-blue-400 text-xs px-1 transition"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="deleteCustomMenu('${menu.id}')" class="text-slate-500 hover:text-rose-400 text-xs px-1 transition"><i class="fa-solid fa-trash"></i></button>
                         ` : ''}
                     </div>
                 `;
@@ -728,47 +776,47 @@
                 let itemsHTML = '';
                 if(menu.items.length === 0) {
                     itemsHTML = `
-                        <div class="text-center py-16 bg-white rounded-2xl border border-slate-200/80 text-slate-400 space-y-3">
-                            <i class="fa-solid fa-folder-open text-5xl text-slate-300"></i>
+                        <div class="text-center py-20 glass-panel rounded-2xl border border-slate-800 text-slate-500 space-y-3">
+                            <i class="fa-solid fa-folder-open text-5xl text-slate-700"></i>
                             <p class="text-sm font-medium">Bu bo'limda hozircha ma'lumotlar va fayllar yo'q.</p>
                         </div>
                     `;
                 } else {
-                    itemsHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-5">`;
+                    itemsHTML = `<div class="grid grid-cols-1 md:grid-cols-2 gap-6">`;
                     menu.items.forEach(item => {
                         let fileHTML = '';
                         if (item.file) {
                             fileHTML = `
-                                <div class="mt-3 p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
-                                    <div class="flex items-center space-x-2.5 overflow-hidden">
-                                        <i class="fa-solid fa-file-lines text-teal-600 text-lg"></i>
+                                <div class="mt-4 p-3.5 bg-slate-900/90 border border-slate-700/80 rounded-xl flex items-center justify-between">
+                                    <div class="flex items-center space-x-3 overflow-hidden">
+                                        <i class="fa-solid fa-file-arrow-down text-emerald-400 text-xl"></i>
                                         <div class="truncate">
-                                            <p class="text-xs font-bold text-slate-700 truncate">${item.file.name}</p>
-                                            <p class="text-[10px] text-slate-400">${item.file.size}</p>
+                                            <p class="text-xs font-bold text-slate-200 truncate">${item.file.name}</p>
+                                            <p class="text-[10px] text-slate-500">${item.file.size}</p>
                                         </div>
                                     </div>
-                                    <a href="${item.file.url}" download="${item.file.name}" class="bg-teal-600 hover:bg-teal-700 text-white text-[11px] font-bold px-3 py-1.5 rounded-lg transition shrink-0 flex items-center space-x-1">
-                                        <i class="fa-solid fa-download"></i><span>Yuklab olish</span>
+                                    <a href="${item.file.url}" download="${item.file.name}" class="bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 hover:bg-emerald-500 hover:text-slate-950 text-[11px] font-bold px-3.5 py-2 rounded-lg transition shrink-0 flex items-center space-x-1.5">
+                                        <i class="fa-solid fa-download"></i><span>Yuklash</span>
                                     </a>
                                 </div>
                             `;
                         }
 
                         itemsHTML += `
-                            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between hover:shadow-md transition">
-                                <div class="space-y-2">
+                            <div class="glass-card p-6 rounded-2xl flex flex-col justify-between transition-all duration-300">
+                                <div class="space-y-2.5">
                                     <div class="flex justify-between items-start">
-                                        <h5 class="font-bold text-slate-800 text-sm">${item.title}</h5>
+                                        <h5 class="font-bold text-white text-sm">${item.title}</h5>
                                         ${isAdmin ? `
                                         <div class="flex space-x-2 pl-2">
-                                            <button onclick="editCustomItem('${menu.id}',${item.id})" class="text-slate-400 hover:text-blue-600 text-xs transition"><i class="fa-solid fa-pen"></i></button>
-                                            <button onclick="deleteCustomItem('${menu.id}',${item.id})" class="text-slate-400 hover:text-rose-600 text-xs transition"><i class="fa-solid fa-trash"></i></button>
+                                            <button onclick="editCustomItem('${menu.id}',${item.id})" class="text-slate-500 hover:text-blue-400 text-xs transition"><i class="fa-solid fa-pen"></i></button>
+                                            <button onclick="deleteCustomItem('${menu.id}',${item.id})" class="text-slate-500 hover:text-rose-400 text-xs transition"><i class="fa-solid fa-trash"></i></button>
                                         </div>` : ''}
                                     </div>
-                                    <p class="text-xs text-slate-600 leading-relaxed whitespace-pre-line">${item.desc || 'Tavsif berilmagan'}</p>
+                                    <p class="text-xs text-slate-300 leading-relaxed whitespace-pre-line">${item.desc || 'Tavsif berilmagan'}</p>
                                     ${fileHTML}
                                 </div>
-                                <span class="text-[10px] text-slate-400 block pt-3 border-t border-slate-100 mt-3">${item.date}</span>
+                                <span class="text-[10px] text-slate-500 block pt-4 border-t border-slate-800/80 mt-4">${item.date}</span>
                             </div>
                         `;
                     });
@@ -777,19 +825,19 @@
 
                 contentsHolder.innerHTML += `
                     <div id="content-${menu.id}" class="hidden space-y-6">
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
-                            <h3 class="text-xl font-bold text-slate-800">${menu.name}</h3>
-                            <p class="text-xs text-slate-500 mt-1">Ushbu bo'limdagi barcha saqlangan ma'lumotlar va yuklangan fayllar</p>
+                        <div class="glass-panel p-6 rounded-2xl border border-slate-800">
+                            <h3 class="text-xl font-bold text-white">${menu.name}</h3>
+                            <p class="text-xs text-slate-400 mt-1">Ushbu bo'limdagi barcha saqlangan ma'lumotlar va yuklangan fayllar</p>
                         </div>
 
                         ${isAdmin ? `
-                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-4">
-                            <h4 class="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center"><i class="fa-solid fa-cloud-arrow-up text-teal-600 mr-2 text-sm"></i>Yangi ma'lumot yoki fayl qo'shish</h4>
+                        <div class="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+                            <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center"><i class="fa-solid fa-cloud-arrow-up text-emerald-400 mr-2 text-sm"></i>Yangi ma'lumot yoki fayl qo'shish</h4>
                             <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-                                <input type="text" id="item-title-${menu.id}" placeholder="Mavzu / Hujjat nomi" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
-                                <input type="text" id="item-desc-${menu.id}" placeholder="Matn / Tavsif / Havola" class="px-3.5 py-2 border border-slate-300 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-teal-500">
-                                <input type="file" id="item-file-${menu.id}" class="block w-full text-xs text-slate-500 file:mr-2 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-teal-50 file:text-teal-700 hover:file:bg-teal-100 cursor-pointer border border-slate-300 rounded-xl">
-                                <button onclick="addCustomItem('${menu.id}')" class="bg-teal-600 hover:bg-teal-700 text-white px-5 py-2 rounded-xl text-xs font-bold transition shadow-sm flex items-center justify-center space-x-1">
+                                <input type="text" id="item-title-${menu.id}" placeholder="Mavzu / Hujjat nomi" class="bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                                <input type="text" id="item-desc-${menu.id}" placeholder="Matn / Tavsif / Havola" class="bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-200 focus:outline-none focus:border-emerald-500">
+                                <input type="file" id="item-file-${menu.id}" class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-500/10 file:text-emerald-400 hover:file:bg-emerald-500/20 cursor-pointer border border-slate-700/80 bg-slate-900/80 rounded-xl">
+                                <button onclick="addCustomItem('${menu.id}')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-5 py-2.5 rounded-xl text-xs transition shadow-md shadow-emerald-500/20 flex items-center justify-center space-x-1.5">
                                     <i class="fa-solid fa-plus"></i><span>Qo'shish</span>
                                 </button>
                             </div>
