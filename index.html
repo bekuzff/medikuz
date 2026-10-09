@@ -195,7 +195,7 @@
         </div>
     </main>
 
-    <!-- Auth Modal -->
+    <!-- Auth Modal (Kirish / Ro'yxatdan o'tish oynasi) -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
         <div class="bg-white max-w-md w-full p-8 rounded-2xl shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
@@ -208,6 +208,11 @@
 
             <!-- Login Form -->
             <form id="login-form" onsubmit="handleLogin(event)" class="space-y-4">
+                <div class="bg-teal-50 p-3 rounded-xl text-xs text-teal-800 mb-2">
+                    <b>Admin Kirish:</b><br>
+                    Email: <span class="font-bold">admin@shifo.uz</span><br>
+                    Parol: <span class="font-bold">123456</span>
+                </div>
                 <div>
                     <label class="block text-xs font-semibold text-gray-700 mb-1">Email manzil</label>
                     <input type="email" id="login-email" required class="w-full px-4 py-2 border rounded-xl text-sm focus:ring-2 focus:ring-teal-500 focus:outline-none" placeholder="admin@shifo.uz">
@@ -238,7 +243,7 @@
         </div>
     </div>
 
-    <!-- Receipt Print Modal Area -->
+    <!-- Receipt Print Area -->
     <div id="print-area" class="hidden fixed inset-0 bg-white z-50 p-6 flex flex-col justify-between max-w-xs mx-auto my-auto shadow-2xl border h-fit rounded-2xl">
         <div class="text-center space-y-1">
             <h2 class="text-lg font-bold tracking-wider">SHIFO CLINIC</h2>
@@ -259,7 +264,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v9')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v10')) || {
             users: [
                 { name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin" }
             ],
@@ -277,7 +282,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v9', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v10', JSON.stringify(db));
         }
 
         function openAuthModal(tab) {
@@ -382,7 +387,6 @@
                 return;
             }
 
-            // Hide standard tabs
             ['rooms', 'doctors', 'billing', 'staff'].forEach(t => {
                 const el = document.getElementById(`content-${t}`);
                 const btn = document.getElementById(`tab-${t}`);
@@ -390,7 +394,6 @@
                 if(btn) btn.className = "flex items-center space-x-2 px-4 py-2 text-sm font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap";
             });
 
-            // Hide custom tabs
             db.customMenus.forEach(m => {
                 const el = document.getElementById(`content-${m.id}`);
                 const btn = document.getElementById(`tab-${m.id}`);
@@ -542,8 +545,6 @@
             document.getElementById('st-pass').value = '';
         }
 
-        // --- DYNAMIC CUSTOM MENUS & DATA HANDLING ---
-
         function addCustomMenu() {
             const menuName = document.getElementById('custom-menu-input').value.trim();
             if(!menuName) return;
@@ -645,7 +646,6 @@
             contentsHolder.innerHTML = '';
 
             db.customMenus.forEach(menu => {
-                // Render Tab Button
                 tabsHolder.innerHTML += `
                     <div class="flex items-center space-x-1">
                         <button onclick="switchTab('${menu.id}')" id="tab-${menu.id}" class="flex items-center space-x-2 px-4 py-2 text-sm font-semibold rounded-xl text-gray-600 hover:bg-gray-50 transition whitespace-nowrap">
@@ -658,7 +658,6 @@
                     </div>
                 `;
 
-                // Render Content Section
                 let itemsHTML = '';
                 if(menu.items.length === 0) {
                     itemsHTML = `
