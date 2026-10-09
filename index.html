@@ -340,7 +340,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v14')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v20')) || {
             users: [
                 { name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin" }
             ],
@@ -358,7 +358,7 @@
         };
 
         function saveDB() {
-            localStorage.setItem('shifo_db_v14', JSON.stringify(db));
+            localStorage.setItem('shifo_db_v20', JSON.stringify(db));
         }
 
         function openAuthModal(tab) {
@@ -494,15 +494,10 @@
                     ? 'bg-rose-500/10 text-rose-400 border-rose-500/30' 
                     : 'bg-amber-500/10 text-amber-400 border-amber-500/30';
 
-                grid.innerHTML += `
-                    <div class="glass-card p-6 rounded-2xl space-y-4 transition-all duration-300">
-                        <div class="flex justify-between items-center">
-                            <h4 class="font-bold text-sm text-white flex items-center gap-2">
-                                <i class="fa-solid fa-door-closed text-slate-500"></i>${room.name}
-                            </h4>
-                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border ${statusBadge}">${room.status}</span>
-                        </div>
-                        ${isAdmin ? `
+                // Faqat Admin bo'lsa tugmalar ko'rinadi, bo'lmasa ko'rinmaydi
+                let adminControls = '';
+                if (isAdmin) {
+                    adminControls = `
                         <div class="flex space-x-2 pt-3 border-t border-slate-800">
                             <button onclick="updateRoomStatus(${room.id}, 'Bo\\'sh')" class="flex-1 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 py-2 rounded-xl text-[11px] font-bold transition">Bo'sh</button>
                             <button onclick="updateRoomStatus(${room.id}, 'Band')" class="flex-1 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 py-2 rounded-xl text-[11px] font-bold transition">Band</button>
@@ -511,7 +506,19 @@
                         <div class="flex justify-between items-center pt-2 text-xs border-t border-slate-800/80">
                             <button onclick="editRoom(${room.id})" class="text-emerald-400 hover:text-emerald-300 font-semibold transition flex items-center gap-1"><i class="fa-solid fa-pen text-[10px]"></i>Tahrirlash</button>
                             <button onclick="deleteRoom(${room.id})" class="text-rose-400 hover:text-rose-300 font-semibold transition flex items-center gap-1"><i class="fa-solid fa-trash text-[10px]"></i>O'chirish</button>
-                        </div>` : ''}
+                        </div>
+                    `;
+                }
+
+                grid.innerHTML += `
+                    <div class="glass-card p-6 rounded-2xl space-y-4 transition-all duration-300">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-sm text-white flex items-center gap-2">
+                                <i class="fa-solid fa-door-closed text-slate-500"></i>${room.name}
+                            </h4>
+                            <span class="px-3 py-1 rounded-full text-[10px] font-bold border ${statusBadge}">${room.status}</span>
+                        </div>
+                        ${adminControls}
                     </div>
                 `;
             });
@@ -527,17 +534,23 @@
         }
 
         function updateRoomStatus(id, status) {
+            if (!(db.currentUser && db.currentUser.role === 'admin')) {
+                alert("Faqat Admin xona holatini o'zgartirishi mumkin!");
+                return;
+            }
             let room = db.rooms.find(r => r.id === id);
             if(room) { room.status = status; saveDB(); renderRooms(); }
         }
 
         function deleteRoom(id) {
+            if (!(db.currentUser && db.currentUser.role === 'admin')) return;
             db.rooms = db.rooms.filter(r => r.id !== id);
             saveDB();
             renderRooms();
         }
 
         function editRoom(id) {
+            if (!(db.currentUser && db.currentUser.role === 'admin')) return;
             let room = db.rooms.find(r => r.id === id);
             if(room) {
                 let newName = prompt("Xona nomini o'zgartiring:", room.name);
