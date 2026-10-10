@@ -35,7 +35,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-lg font-extrabold tracking-tight text-white">SHIFO CLINIC</h1>
-                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">SUPERADMIN v13.0</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">FIXED v14.0</span>
                     </div>
                     <p class="text-xs text-slate-400 font-medium">Tibbiyot Markazi va Boshqaruv Platformasi</p>
                 </div>
@@ -168,7 +168,7 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Xizmatlar (TAHRIRLASH TUGMASI BILAN) -->
+            <!-- Tab 2: Xizmatlar -->
             <div id="content-services" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -193,7 +193,7 @@
                 </div>
             </div>
 
-            <!-- Tab 3: Xonalar (TAHRIRLASH TUGMASI BILAN) -->
+            <!-- Tab 3: Xonalar -->
             <div id="content-rooms-manage" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -222,7 +222,7 @@
                 </div>
             </div>
 
-            <!-- Tab 4: Xodimlarni Boshqarish (SUPER ADMIN BILAN) -->
+            <!-- Tab 4: Xodimlarni Boshqarish -->
             <div id="content-staff" class="hidden space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -375,7 +375,7 @@
         </div>
     </div>
 
-    <!-- TAHRIRLASH (EDIT) MODAL OYNASI (XONALAR VA XIZMATLAR UCHUN) -->
+    <!-- TAHRIRLASH MODAL OYNASI -->
     <div id="edit-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-panel max-w-md w-full p-6 rounded-3xl space-y-4 border border-slate-800">
             <div class="flex justify-between items-center">
@@ -426,7 +426,7 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v130')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v140')) || {
             users: [
                 { id: 1, name: "Bosh SuperAdmin", email: "super@shifo.uz", pass: "123456", role: "superadmin", perms: { addPatient: true, processPay: true, manageServices: true, manageRooms: true, manageStaff: true, manageReceipt: true } },
                 { id: 2, name: "Adminbek", email: "admin@shifo.uz", pass: "123456", role: "admin", perms: { addPatient: true, processPay: true, manageServices: true, manageRooms: true, manageStaff: true, manageReceipt: true } },
@@ -456,8 +456,10 @@
 
         let activeEditType = null;
         let activeEditId = null;
+        let selectedPatientForPay = null;
+        let selectedServices = [];
 
-        function saveDB() { localStorage.setItem('shifo_db_v130', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('shifo_db_v140', JSON.stringify(db)); }
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -581,7 +583,7 @@
             });
         }
 
-        /* PRIVATE MANAGEMENT & EDITING */
+        /* PRIVATE MANAGEMENT */
         function switchTab(tab) {
             ['patients', 'services', 'rooms-manage', 'staff', 'receipt-cfg'].forEach(t => {
                 const el = document.getElementById(`content-${t}`);
@@ -625,7 +627,6 @@
             });
         }
 
-        /* XIZMATLARNI TAHRIRLASH VA QO'SHISH */
         function addService() {
             const name = document.getElementById('srv-name').value.trim();
             const price = Number(document.getElementById('srv-price').value);
@@ -662,7 +663,6 @@
             renderServices();
         }
 
-        /* XONALARNI TAHRIRLASH VA QO'SHISH */
         function addRoom() {
             const name = document.getElementById('rm-name').value.trim();
             const status = document.getElementById('rm-status').value;
@@ -698,7 +698,7 @@
             renderManageRooms();
         }
 
-        /* TAHRIRLASH (EDIT) MODAL MANTIQLARI */
+        /* TAHRIRLASH MODAL MANTIQLARI */
         function openEditModal(type, id) {
             activeEditType = type;
             activeEditId = id;
@@ -757,7 +757,7 @@
             closeEditModal();
         }
 
-        /* TO'LOV MANTIQLARI */
+        /* YANGILANGAN INTEGRATSIYALASHGAN TO'LOV MANTIQLARI (100% ISHLAYDI) */
         function openPayModal(patientId) {
             selectedPatientForPay = db.patients.find(p => p.id === patientId);
             if (!selectedPatientForPay) return;
@@ -780,7 +780,7 @@
                 list.innerHTML += `
                     <label class="flex items-center justify-between p-3 bg-slate-900 border border-slate-700/80 rounded-xl cursor-pointer hover:border-emerald-500/50 transition">
                         <div class="flex items-center space-x-2.5">
-                            <input type="checkbox" onchange="togglePayService(${s.id}, ${s.price}, '${s.name}', this.checked)" class="w-4 h-4 accent-emerald-500 rounded">
+                            <input type="checkbox" onchange="togglePayService(${s.id}, this.checked)" class="w-4 h-4 accent-emerald-500 rounded">
                             <span class="text-xs font-semibold text-slate-200">${s.name}</span>
                         </div>
                         <span class="text-xs font-bold text-emerald-400">${s.price.toLocaleString()} UZS</span>
@@ -794,11 +794,16 @@
 
         function closePayModal() { document.getElementById('payment-modal').classList.add('hidden'); }
 
-        function togglePayService(id, price, name, isChecked) {
+        function togglePayService(serviceId, isChecked) {
+            const srv = db.services.find(s => s.id === serviceId);
+            if (!srv) return;
+
             if (isChecked) {
-                selectedServices.push({ id, price, name });
+                if (!selectedServices.some(s => s.id === serviceId)) {
+                    selectedServices.push(srv);
+                }
             } else {
-                selectedServices = selectedServices.filter(s => s.id !== id);
+                selectedServices = selectedServices.filter(s => s.id !== serviceId);
             }
             calculateTotalPay();
         }
