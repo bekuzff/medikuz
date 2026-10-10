@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shifo Clinic - Tibbiyot va Boshqaruv Markazi</title>
+    <title>Shifo Clinic - Full Control SuperAdmin</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -35,7 +35,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-lg font-extrabold tracking-tight text-white">SHIFO CLINIC</h1>
-                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">PRO v12.0</span>
+                        <span class="px-2 py-0.5 text-[10px] font-bold rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">SUPERADMIN v13.0</span>
                     </div>
                     <p class="text-xs text-slate-400 font-medium">Tibbiyot Markazi va Boshqaruv Platformasi</p>
                 </div>
@@ -100,7 +100,7 @@
             </div>
         </div>
 
-        <!-- ==================== 2. TIZIMGA KIRGAN XODIMLAR / ADMIN PANELI ==================== -->
+        <!-- ==================== 2. TIZIMGA KIRGAN XODIMLAR / PANELI ==================== -->
         <div id="private-view" class="hidden space-y-8">
             <div class="glass-panel p-2 rounded-2xl border border-slate-800 flex flex-wrap justify-between items-center gap-4">
                 <div id="tabs-container" class="flex space-x-2 overflow-x-auto items-center py-1">
@@ -136,7 +136,6 @@
                             </div>
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">Telefon raqam (Faqat raqamlar)</label>
-                                <!-- FAQAT RAQAM VA + BELGISI KIRITILADI -->
                                 <input type="tel" id="p-phone" oninput="this.value = this.value.replace(/[^0-9+]/g, '')" placeholder="+998 90 123 45 67" class="w-full bg-slate-900/80 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-emerald-500">
                             </div>
                             <div>
@@ -169,7 +168,7 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Xizmatlar -->
+            <!-- Tab 2: Xizmatlar (TAHRIRLASH TUGMASI BILAN) -->
             <div id="content-services" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -194,7 +193,7 @@
                 </div>
             </div>
 
-            <!-- Tab 3: Xonalar -->
+            <!-- Tab 3: Xonalar (TAHRIRLASH TUGMASI BILAN) -->
             <div id="content-rooms-manage" class="hidden space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -223,7 +222,7 @@
                 </div>
             </div>
 
-            <!-- Tab 4: Xodimlarni Boshqarish (KENGAYTIRILGAN RUXSATLAR BILAN) -->
+            <!-- Tab 4: Xodimlarni Boshqarish (SUPER ADMIN BILAN) -->
             <div id="content-staff" class="hidden space-y-6">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <div class="glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
@@ -246,14 +245,14 @@
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1">Lavozim / Rol</label>
                                 <select id="st-role" class="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none">
+                                    <option value="superadmin">Super Admin (To'liq Boshqaruv)</option>
+                                    <option value="admin">Admin</option>
                                     <option value="cashier">Kassir</option>
                                     <option value="reception">Receptionist</option>
                                     <option value="doctor">Doktor (Shifokor)</option>
-                                    <option value="admin">Admin (To'liq Ruxsat)</option>
                                 </select>
                             </div>
 
-                            <!-- KO'PAYTIRILGAN RUXSAT BAYROQCHALARI (PERMISSIONS) -->
                             <div class="p-3.5 bg-slate-900/90 border border-slate-700/80 rounded-xl space-y-2">
                                 <label class="block text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1">Xodimga Beriladigan Ruxsatlar:</label>
                                 <div class="space-y-1.5 text-xs text-slate-200">
@@ -267,15 +266,15 @@
                                     </label>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="checkbox" id="perm-manage-services" class="accent-emerald-500 rounded">
-                                        <span>Xizmatlar va Narxlarni boshqarish</span>
+                                        <span>Xizmatlar va Narxlarni boshqarish/tahrirlash</span>
                                     </label>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="checkbox" id="perm-manage-rooms" class="accent-emerald-500 rounded">
-                                        <span>Xonalarni va holatlarini boshqarish</span>
+                                        <span>Xonalarni va holatlarini tahrirlash/boshqarish</span>
                                     </label>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="checkbox" id="perm-manage-staff" class="accent-emerald-500 rounded">
-                                        <span>Yangi Kassir va Xodimlarni qo'shish va boshqarish</span>
+                                        <span>Yangi Xodimlarni qo'shish va boshqarish</span>
                                     </label>
                                     <label class="flex items-center space-x-2 cursor-pointer">
                                         <input type="checkbox" id="perm-manage-receipt" class="accent-emerald-500 rounded">
@@ -376,6 +375,18 @@
         </div>
     </div>
 
+    <!-- TAHRIRLASH (EDIT) MODAL OYNASI (XONALAR VA XIZMATLAR UCHUN) -->
+    <div id="edit-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+        <div class="glass-panel max-w-md w-full p-6 rounded-3xl space-y-4 border border-slate-800">
+            <div class="flex justify-between items-center">
+                <h3 id="edit-modal-title" class="text-sm font-bold text-white">Tahrirlash</h3>
+                <button onclick="closeEditModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="edit-modal-body" class="space-y-3"></div>
+            <button onclick="saveEditModal()" class="w-full bg-emerald-500 text-slate-950 font-bold py-2.5 rounded-xl text-xs">O'zgarishlarni Saqlash</button>
+        </div>
+    </div>
+
     <!-- Auth Modal -->
     <div id="auth-modal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
         <div class="glass-panel max-w-md w-full p-6 rounded-3xl space-y-4 border border-slate-800 relative">
@@ -415,11 +426,12 @@
     </div>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('shifo_db_v120')) || {
+        let db = JSON.parse(localStorage.getItem('shifo_db_v130')) || {
             users: [
-                { id: 1, name: "Bosh Admin", email: "admin@shifo.uz", pass: "123456", role: "admin", perms: { addPatient: true, processPay: true, manageServices: true, manageRooms: true, manageStaff: true, manageReceipt: true } },
-                { id: 2, name: "Kassir Nodira", email: "kassir@shifo.uz", pass: "123456", role: "cashier", perms: { addPatient: true, processPay: true, manageServices: false, manageRooms: false, manageStaff: false, manageReceipt: false } },
-                { id: 3, name: "Dr. Alisher Karimov", email: "alisher@shifo.uz", pass: "123456", role: "doctor", perms: { addPatient: true, processPay: false, manageServices: false, manageRooms: false, manageStaff: false, manageReceipt: false } }
+                { id: 1, name: "Bosh SuperAdmin", email: "super@shifo.uz", pass: "123456", role: "superadmin", perms: { addPatient: true, processPay: true, manageServices: true, manageRooms: true, manageStaff: true, manageReceipt: true } },
+                { id: 2, name: "Adminbek", email: "admin@shifo.uz", pass: "123456", role: "admin", perms: { addPatient: true, processPay: true, manageServices: true, manageRooms: true, manageStaff: true, manageReceipt: true } },
+                { id: 3, name: "Kassir Nodira", email: "kassir@shifo.uz", pass: "123456", role: "cashier", perms: { addPatient: true, processPay: true, manageServices: false, manageRooms: false, manageStaff: false, manageReceipt: false } },
+                { id: 4, name: "Dr. Alisher Karimov", email: "alisher@shifo.uz", pass: "123456", role: "doctor", perms: { addPatient: true, processPay: false, manageServices: false, manageRooms: false, manageStaff: false, manageReceipt: false } }
             ],
             currentUser: null,
             patients: [],
@@ -442,10 +454,10 @@
             }
         };
 
-        let selectedPatientForPay = null;
-        let selectedServices = [];
+        let activeEditType = null;
+        let activeEditId = null;
 
-        function saveDB() { localStorage.setItem('shifo_db_v120', JSON.stringify(db)); }
+        function saveDB() { localStorage.setItem('shifo_db_v130', JSON.stringify(db)); }
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
         function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
@@ -476,19 +488,19 @@
                 document.getElementById('user-info').classList.remove('hidden');
                 document.getElementById('role-badge').innerText = `${user.name} (${user.role.toUpperCase()})`;
 
-                const isAdmin = user.role === 'admin';
+                const isSuper = user.role === 'superadmin' || user.role === 'admin';
                 const perms = user.perms || {};
 
-                document.querySelectorAll('.perm-add-patient').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.addPatient)));
-                document.querySelectorAll('.perm-manage-services').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageServices)));
-                document.querySelectorAll('.perm-manage-rooms').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageRooms)));
-                document.querySelectorAll('.perm-manage-staff').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageStaff)));
-                document.querySelectorAll('.perm-manage-receipt').forEach(el => el.classList.toggle('hidden', !(isAdmin || perms.manageReceipt)));
+                document.querySelectorAll('.perm-add-patient').forEach(el => el.classList.toggle('hidden', !(isSuper || perms.addPatient)));
+                document.querySelectorAll('.perm-manage-services').forEach(el => el.classList.toggle('hidden', !(isSuper || perms.manageServices)));
+                document.querySelectorAll('.perm-manage-rooms').forEach(el => el.classList.toggle('hidden', !(isSuper || perms.manageRooms)));
+                document.querySelectorAll('.perm-manage-staff').forEach(el => el.classList.toggle('hidden', !(isSuper || perms.manageStaff)));
+                document.querySelectorAll('.perm-manage-receipt').forEach(el => el.classList.toggle('hidden', !(isSuper || perms.manageReceipt)));
 
                 renderPatients();
                 renderServices();
                 renderManageRooms();
-                if (isAdmin || perms.manageStaff) renderStaff();
+                if (isSuper || perms.manageStaff) renderStaff();
             } else {
                 publicView.classList.remove('hidden');
                 privateView.classList.add('hidden');
@@ -536,7 +548,7 @@
         function renderPublicDoctors() {
             const grid = document.getElementById('pub-doctors-grid');
             grid.innerHTML = '';
-            const doctors = db.users.filter(u => u.role === 'doctor' || u.role === 'admin');
+            const doctors = db.users.filter(u => u.role === 'doctor' || u.role === 'admin' || u.role === 'superadmin');
             doctors.forEach(d => {
                 grid.innerHTML += `
                     <div class="glass-card p-6 rounded-3xl space-y-3 border border-slate-800">
@@ -569,7 +581,7 @@
             });
         }
 
-        /* PRIVATE MANAGEMENT FUNCTIONS */
+        /* PRIVATE MANAGEMENT & EDITING */
         function switchTab(tab) {
             ['patients', 'services', 'rooms-manage', 'staff', 'receipt-cfg'].forEach(t => {
                 const el = document.getElementById(`content-${t}`);
@@ -596,7 +608,7 @@
         function renderPatients() {
             const tbody = document.getElementById('patients-table');
             tbody.innerHTML = '';
-            const canPay = db.currentUser && (db.currentUser.role === 'admin' || (db.currentUser.perms && db.currentUser.perms.processPay));
+            const canPay = db.currentUser && (db.currentUser.role === 'superadmin' || db.currentUser.role === 'admin' || (db.currentUser.perms && db.currentUser.perms.processPay));
 
             db.patients.forEach(p => {
                 tbody.innerHTML += `
@@ -613,6 +625,7 @@
             });
         }
 
+        /* XIZMATLARNI TAHRIRLASH VA QO'SHISH */
         function addService() {
             const name = document.getElementById('srv-name').value.trim();
             const price = Number(document.getElementById('srv-price').value);
@@ -635,7 +648,8 @@
                         <span class="font-bold text-white">${s.name}</span>
                         <div class="flex items-center space-x-3">
                             <span class="text-emerald-400 font-extrabold">${s.price.toLocaleString()} UZS</span>
-                            ${db.currentUser && db.currentUser.role === 'admin' ? `<button onclick="deleteService(${s.id})" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>` : ''}
+                            <button onclick="openEditModal('service', ${s.id})" class="text-emerald-400 hover:text-emerald-300"><i class="fa-solid fa-pen-to-square"></i></button>
+                            <button onclick="deleteService(${s.id})" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 `;
@@ -648,6 +662,7 @@
             renderServices();
         }
 
+        /* XONALARNI TAHRIRLASH VA QO'SHISH */
         function addRoom() {
             const name = document.getElementById('rm-name').value.trim();
             const status = document.getElementById('rm-status').value;
@@ -669,6 +684,7 @@
                         <span class="font-bold text-white">${r.name}</span>
                         <div class="flex items-center space-x-3">
                             <span class="px-2 py-0.5 rounded text-[10px] font-bold ${r.status === 'Bo\'sh' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}">${r.status}</span>
+                            <button onclick="openEditModal('room', ${r.id})" class="text-emerald-400 hover:text-emerald-300"><i class="fa-solid fa-pen-to-square"></i></button>
                             <button onclick="deleteRoom(${r.id})" class="text-rose-400 hover:text-rose-300"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
@@ -682,6 +698,66 @@
             renderManageRooms();
         }
 
+        /* TAHRIRLASH (EDIT) MODAL MANTIQLARI */
+        function openEditModal(type, id) {
+            activeEditType = type;
+            activeEditId = id;
+            const modal = document.getElementById('edit-modal');
+            const body = document.getElementById('edit-modal-body');
+
+            if (type === 'room') {
+                const room = db.rooms.find(r => r.id === id);
+                document.getElementById('edit-modal-title').innerText = "Xona va Holatni Tahrirlash";
+                body.innerHTML = `
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Xona Nomi:</label>
+                        <input type="text" id="edit-room-name" value="${room.name}" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Xona Holati:</label>
+                        <select id="edit-room-status" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-emerald-400 font-bold">
+                            <option value="Bo'sh" ${room.status === "Bo'sh" ? 'selected' : ''}>Bo'sh</option>
+                            <option value="Band (Qabulda)" ${room.status === "Band (Qabulda)" ? 'selected' : ''}>Band (Qabulda)</option>
+                            <option value="Tozalanmoqda" ${room.status === "Tozalanmoqda" ? 'selected' : ''}>Tozalanmoqda</option>
+                        </select>
+                    </div>
+                `;
+            } else if (type === 'service') {
+                const srv = db.services.find(s => s.id === id);
+                document.getElementById('edit-modal-title').innerText = "Xizmat va Narxni Tahrirlash";
+                body.innerHTML = `
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Xizmat Nomi:</label>
+                        <input type="text" id="edit-srv-name" value="${srv.name}" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Narxi (so'mda):</label>
+                        <input type="number" id="edit-srv-price" value="${srv.price}" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-emerald-400 font-bold">
+                    </div>
+                `;
+            }
+            modal.classList.remove('hidden');
+        }
+
+        function closeEditModal() { document.getElementById('edit-modal').classList.add('hidden'); }
+
+        function saveEditModal() {
+            if (activeEditType === 'room') {
+                const room = db.rooms.find(r => r.id === activeEditId);
+                room.name = document.getElementById('edit-room-name').value.trim();
+                room.status = document.getElementById('edit-room-status').value;
+                renderManageRooms();
+            } else if (activeEditType === 'service') {
+                const srv = db.services.find(s => s.id === activeEditId);
+                srv.name = document.getElementById('edit-srv-name').value.trim();
+                srv.price = Number(document.getElementById('edit-srv-price').value);
+                renderServices();
+            }
+            saveDB();
+            closeEditModal();
+        }
+
+        /* TO'LOV MANTIQLARI */
         function openPayModal(patientId) {
             selectedPatientForPay = db.patients.find(p => p.id === patientId);
             if (!selectedPatientForPay) return;
@@ -691,7 +767,7 @@
             
             const docSelect = document.getElementById('pay-doctor-select');
             docSelect.innerHTML = '';
-            const doctors = db.users.filter(u => u.role === 'doctor' || u.role === 'admin');
+            const doctors = db.users.filter(u => u.role === 'doctor' || u.role === 'admin' || u.role === 'superadmin');
             doctors.forEach(d => {
                 docSelect.innerHTML += `<option value="${d.name}">${d.name} (${d.role.toUpperCase()})</option>`;
             });
@@ -779,9 +855,9 @@
                     <tr class="border-b border-slate-800/60 hover:bg-slate-800/30 transition">
                         <td class="p-2.5 font-bold text-white">${u.name}</td>
                         <td class="p-2.5 text-slate-400">${u.email}</td>
-                        <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold ${u.role === 'admin' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-300'}">${u.role.toUpperCase()}</span></td>
+                        <td class="p-2.5"><span class="px-2 py-0.5 rounded text-[10px] font-extrabold ${u.role === 'superadmin' ? 'bg-amber-500/20 text-amber-400' : 'bg-slate-800 text-slate-300'}">${u.role.toUpperCase()}</span></td>
                         <td class="p-2.5">
-                            ${u.role !== 'admin' ? `<button onclick="deleteStaff(${u.id})" class="text-rose-400 hover:text-rose-300 text-xs font-semibold"><i class="fa-solid fa-trash"></i></button>` : '<span class="text-slate-600">Asosiy</span>'}
+                            ${u.role !== 'superadmin' ? `<button onclick="deleteStaff(${u.id})" class="text-rose-400 hover:text-rose-300 text-xs font-semibold"><i class="fa-solid fa-trash"></i></button>` : '<span class="text-slate-600">Asosiy SuperAdmin</span>'}
                         </td>
                     </tr>
                 `;
@@ -790,7 +866,7 @@
 
         function addStaff() {
             const user = db.currentUser;
-            const canManageStaff = user && (user.role === 'admin' || (user.perms && user.perms.manageStaff));
+            const canManageStaff = user && (user.role === 'superadmin' || user.role === 'admin' || (user.perms && user.perms.manageStaff));
             if (!canManageStaff) { alert("Sizda xodim qo'shish huquqi yo'q!"); return; }
 
             const name = document.getElementById('st-name').value.trim();
@@ -821,7 +897,7 @@
 
         function deleteStaff(id) {
             const user = db.currentUser;
-            const canManageStaff = user && (user.role === 'admin' || (user.perms && user.perms.manageStaff));
+            const canManageStaff = user && (user.role === 'superadmin' || user.role === 'admin' || (user.perms && user.perms.manageStaff));
             if (!canManageStaff) return;
 
             db.users = db.users.filter(u => u.id !== id);
